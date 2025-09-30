@@ -76,7 +76,6 @@
     }
 
     const currentId = dataEl.dataset.current || null;
-    const mode = dataEl.dataset.mode || 'page';
 
     if (!payload || !Array.isArray(payload.nodes)) {
       return;
@@ -89,33 +88,8 @@
       ? payload.edges.map(function (link) { return Object.assign({}, link); })
       : [];
 
-    const neighborIds = currentId ? new Set([currentId]) : new Set();
-    if (currentId) {
-      links.forEach(function (link) {
-        const src = typeof link.source === 'object' ? link.source.id : link.source;
-        const tgt = typeof link.target === 'object' ? link.target.id : link.target;
-        if (src === currentId) neighborIds.add(tgt);
-        if (tgt === currentId) neighborIds.add(src);
-      });
-    }
-
-    const focusNeighbors = currentId && mode !== 'section';
-    const filteredNodes = focusNeighbors
-      ? nodes.filter(function (node) { return neighborIds.has(node.id); })
-      : nodes.slice();
-
-    const allowedIds = new Set(filteredNodes.map(function (node) { return node.id; }));
-
-    const filteredLinks = focusNeighbors
-      ? links.filter(function (link) {
-          const src = typeof link.source === 'object' ? link.source.id : link.source;
-          const tgt = typeof link.target === 'object' ? link.target.id : link.target;
-          return allowedIds.has(src) && allowedIds.has(tgt);
-        })
-      : links.slice();
-
-    const incomingCounts = buildIncomingCountMap(filteredLinks);
-    filteredNodes.forEach(function (node) {
+    const incomingCounts = buildIncomingCountMap(links);
+    nodes.forEach(function (node) {
       node.__incoming = incomingCounts.get(node.id) || 0;
       if (currentId && node.id === currentId) {
         node.__incoming += 1;
@@ -134,7 +108,7 @@
     container.style.border = scheme.containerBorder;
     container.style.background = scheme.containerBg;
     container.style.backdropFilter = 'blur(6px)';
-    container.style.minHeight = '320px';
+    container.style.minHeight = '360px';
     container.style.boxSizing = 'border-box';
 
     const heading = document.createElement('h2');
@@ -147,10 +121,7 @@
     heading.style.gap = '0.65rem';
 
     const badge = document.createElement('span');
-    const badgeCount = focusNeighbors ? filteredNodes.length : nodes.length;
-    badge.textContent = focusNeighbors
-      ? badgeCount + ' notas conectadas'
-      : badgeCount + ' notas en el grafo';
+    badge.textContent = nodes.length + ' notas en el grafo';
     badge.style.fontSize = '0.75rem';
     badge.style.fontWeight = '500';
     badge.style.color = scheme.badgeText;
@@ -164,7 +135,7 @@
 
     const graphHolder = document.createElement('div');
     graphHolder.id = 'notes-graph-viewport';
-    graphHolder.style.height = '320px';
+    graphHolder.style.height = '360px';
     graphHolder.style.width = '100%';
     graphHolder.style.position = 'relative';
     container.appendChild(graphHolder);
@@ -183,14 +154,14 @@
     }
 
     function nodeRadius(node) {
-      const base = 12;
-      const scale = 5;
-      const bump = currentId && node.id === currentId ? 8 : 0;
+      const base = 14;
+      const scale = 6;
+      const bump = currentId && node.id === currentId ? 10 : 0;
       return base + (node.__incoming || 0) * scale + bump;
     }
 
     const graph = ForceGraph()(graphHolder)
-      .graphData({ nodes: filteredNodes, links: filteredLinks })
+      .graphData({ nodes: nodes, links: links })
       .nodeId('id')
       .nodeVal(function (node) {
         const r = nodeRadius(node);
@@ -212,14 +183,14 @@
       .linkDirectionalParticles(function (link) {
         return linkTouchesCurrent(link, currentId) ? 2 : 0;
       })
-      .linkDirectionalParticleSpeed(0.007)
-      .d3VelocityDecay(0.25)
+      .linkDirectionalParticleSpeed(0.0065)
+      .d3VelocityDecay(0.18)
       .width(graphHolder.clientWidth)
       .height(graphHolder.clientHeight);
 
     const chargeForce = graph.d3Force('charge');
     if (chargeForce) {
-      chargeForce.strength(-180).distanceMax(600).distanceMin(60);
+      chargeForce.strength(-360).distanceMax(900).distanceMin(90);
     }
 
     const linkForce = graph.d3Force('link');
@@ -227,16 +198,17 @@
       linkForce.distance(function (link) {
         const srcId = typeof link.source === 'object' ? link.source.id : link.source;
         const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
-        const srcNode = filteredNodes.find(function (node) { return node.id === srcId; });
-        const tgtNode = filteredNodes.find(function (node) { return node.id === tgtId; });
-        const srcRadius = srcNode ? nodeRadius(srcNode) : 12;
-        const tgtRadius = tgtNode ? nodeRadius(tgtNode) : 12;
-        return 80 + srcRadius + tgtRadius;
+        const srcNode = nodes.find(function (node) { return node.id === srcId; });
+        const tgtNode = nodes.find(function (node) { return node.id === tgtId; });
+        const srcRadius = srcNode ? nodeRadius(srcNode) : 14;
+        const tgtRadius = tgtNode ? nodeRadius(tgtNode) : 14;
+        return 180 + srcRadius + tgtRadius;
       });
+      linkForce.strength(0.2);
     }
 
     graph.nodeCanvasObject(function (node, ctx) {
-      const radius = Math.max(12, nodeRadius(node));
+      const radius = Math.max(14, nodeRadius(node));
 
       ctx.beginPath();
       ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI, false);
@@ -249,19 +221,19 @@
       const label = node.title || '';
       if (!label) return;
 
-      ctx.font = Math.max(10, radius * 0.45) + 'px "Inter", "Segoe UI", sans-serif';
+      ctx.font = Math.max(11, radius * 0.4) + 'px "Inter", "Segoe UI", sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
       const textWidth = ctx.measureText(label).width;
-      if (textWidth <= radius * 1.8) {
+      if (textWidth <= radius * 2.1) {
         ctx.fillStyle = scheme.textFill;
         ctx.fillText(label, node.x, node.y);
       }
     });
 
     graph.nodePointerAreaPaint(function (node, color, ctx) {
-      const radius = Math.max(12, nodeRadius(node));
+      const radius = Math.max(14, nodeRadius(node));
       ctx.fillStyle = color;
       ctx.beginPath();
       ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI, false);
@@ -279,13 +251,14 @@
       graph.height(graphHolder.clientHeight);
     });
 
-    graph.cooldownTicks(220);
+    graph.cooldownTicks(320);
+    graph.cooldownTime(20000);
     setTimeout(function () {
       try {
-        graph.zoomToFit(700, focusNeighbors ? 72 : 48);
+        graph.zoomToFit(900, 96);
       } catch (err) {
         /* noop */
       }
-    }, 750);
+    }, 1000);
   });
 })();
