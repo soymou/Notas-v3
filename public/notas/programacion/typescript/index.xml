@@ -1,0 +1,283 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Junoy – TypeScript</title>
+    <link>//localhost:1313/notas/programacion/typescript/</link>
+    <description>Recent content in TypeScript on Junoy</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    
+	  <atom:link href="//localhost:1313/notas/programacion/typescript/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Las bases</title>
+      <link>//localhost:1313/notas/programacion/typescript/basics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>//localhost:1313/notas/programacion/typescript/basics/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Cada valor en JavaScript tiene un conjunto de comportamientos que se pueden observar
+corriendo diferentes operaciones. Consideremos una serie de operaciones que corremos sobre
+una variable &lt;code&gt;message&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Accediendo a la propiedad &amp;#39;toLowerCase&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// en &amp;#39;message&amp;#39; y luego llamandola
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;message&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;toLowerCase&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// Llamando a message 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;message&lt;/span&gt;();&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+&lt;div class=&#34;hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Si partimos las cosas en pasos, la primera línea de código que podemos correr accede a la
+propiedad llamada &lt;code&gt;toLowerCase&lt;/code&gt; y luego la llama. La segunda intenta llamar a &lt;code&gt;message&lt;/code&gt;
+directamente.&lt;/p&gt;
+&lt;p&gt;Pero, asumiendo que no conocemos el valor de &lt;code&gt;message&lt;/code&gt;, no podemos decir con certeza
+qué sucederá al intentar correr este código. El comportamiento de cada operación depende
+de qué valor tenemos en primer lugar.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;¿Podemos llamar a &lt;code&gt;message&lt;/code&gt; en primer lugar?&lt;/li&gt;
+&lt;li&gt;¿Tiene una propiedad llamada &lt;code&gt;toLowerCase&lt;/code&gt;?&lt;/li&gt;
+&lt;li&gt;Si la tiene, ¿la podemos llamar?&lt;/li&gt;
+&lt;li&gt;Si estos dos valores los podemos llamar, ¿qué es lo que regresan?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Las respuestas a estas preguntas son cosas que usualmente mantenemos en la cabeza cuando
+programamos en JavaScript y debemos esperar tener bien los detalles.&lt;/p&gt;
+&lt;p&gt;Digamos que definimos a  &lt;code&gt;message&lt;/code&gt; de la siguiente manera:&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;message&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Hello world!&amp;#34;&lt;/span&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+&lt;div class=&#34;hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Como pudimos haver adivinado, si intentamos correr &lt;code&gt;message.toLowerCase()&lt;/code&gt;, obtenemos
+la misma cadena de texto pero en minúsculas.&lt;/p&gt;
+&lt;p&gt;¿Qué pasa con la segunda línea de código? Si estamos familiarizados con JavaScript, sabemos
+que nos va a regresar un error.&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;pre&gt;&lt;code&gt;TypeError: message is not a function&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+&lt;div class=&#34;hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Sería muy bueno que pudiéramos evitar errores como este.&lt;/p&gt;
+&lt;p&gt;Cuando corremos nuestro código, la única manera en la que nuestro runtime de JavaScript
+decide qué hacer es adivinando el &lt;em&gt;tipo&lt;/em&gt; de nuestro valor. Esa es la parte del &lt;code&gt;TypeError&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Para algunos valores, como los primitivos &lt;code&gt;string&lt;/code&gt; y &lt;code&gt;number&lt;/code&gt;, podemos identificar sus
+tipos en el runtime usando el operador &lt;code&gt;typeof&lt;/code&gt;. Pero para otras cosas como funciones,
+no hay un mecanismo de runtime para identificar sus tipos. Por ejemplo, consideremos esta
+función:&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;fn&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;x&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;x&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;flip&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+&lt;div class=&#34;hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Podemos observar leyendo el código que esta función sólo va a funcionar si tenemos un objeto
+con una propiedad que podemos llamar nombrada &lt;code&gt;flip&lt;/code&gt;, pero JavaScript no da esta información
+de una manera que podamos verificar mientras corre el programa. La única forma de
+saber qué hace &lt;code&gt;fn&lt;/code&gt; con un valor particular es llamarla y ver qué sucede. Este tipo de
+comportamiento hace que sea difícil predecir qué hará el código antes de correrlo.&lt;/p&gt;
+&lt;p&gt;Visto de esta forma, un &lt;em&gt;tipo&lt;/em&gt; es un concepto que describe qué valores le podemos pasar a
+&lt;code&gt;fn&lt;/code&gt; y con cuales va a crashear. JavaScript sólo nos da tipado &lt;em&gt;dinámico&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;La alternativa es usar un sistema de tipado &lt;em&gt;estático&lt;/em&gt; para hacer predicciones sobre qué
+hará el código antes de correrlo.&lt;/p&gt;
+&lt;h2&gt;Verificación de tipos estática&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;verificación-de-tipos-estática&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#verificaci%c3%b3n-de-tipos-est%c3%a1tica&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Volvamos a pensar sobre ese &lt;code&gt;TypeError&lt;/code&gt; que obtuvimos antes. Si añadimos un poco de código
+y volvemos a correr nuestro código, podríamos ser capaces de aislar el problema
+rápidamente, pero ese no es siempre el caso.&lt;/p&gt;
+&lt;p&gt;Idealmente, tendríamos una herramienta que nos permita atrapar estos errores antes de que
+corramos nuestro código. Eso es lo que un verificador de tipos estático como TypeScript
+hace. Los sistemas de tipado &lt;em&gt;estáticos&lt;/em&gt; describen las formas y comportamientos de los
+valores antes de correr nuestros programas. Un verificador de tipos como TypeScript usa
+esa información para mantenernos en la línea.&lt;/p&gt;
+&lt;h2&gt;Fallos sin excepciones&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;fallos-sin-excepciones&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#fallos-sin-excepciones&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Hasta ahora hemos discutido cosas como los runtime errors, donde JavaScript nos dice que
+algo no tiene sentido. Otra cosa que puede suceder es, por ejemplo, que intentemos acceder
+a una propiedad que no existe de un objeto. En este caso, JavaScript produce el valor
+&lt;code&gt;undefined&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Un sistema de verificación de tipos debería ser capaz de identificar código que no es
+válido.&lt;/p&gt;
+&lt;h3&gt;Tipos explícitos&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;tipos-explícitos&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#tipos-expl%c3%adcitos&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;En JavaScript podríamos tener la siguiente función:&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;greet&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;person&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;date&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;`Hello &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;person&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;, today is &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;date&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;toDate&lt;/span&gt;()&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.`&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+&lt;div class=&#34;hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Aquí, no le decimos a JavaScript qué son los objetos &lt;code&gt;person&lt;/code&gt; y &lt;code&gt;date&lt;/code&gt;. En TypeScript
+podemos ser más explícitos e indicar qué tipo de objetos son &lt;code&gt;person&lt;/code&gt; y &lt;code&gt;date&lt;/code&gt;. &lt;code&gt;person&lt;/code&gt;
+debe ser un &lt;code&gt;string&lt;/code&gt; y &lt;code&gt;date&lt;/code&gt; un objeto &lt;code&gt;Date&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;greet&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;person&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;date&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;Date&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;`Hello &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;person&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;, today is &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;date&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;toDate&lt;/span&gt;()&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.`&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+&lt;div class=&#34;hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Lo que hemos hecho es añadir &lt;em&gt;anotaciones&lt;/em&gt; de tipo a &lt;code&gt;person&lt;/code&gt; y a &lt;code&gt;date&lt;/code&gt; para describir
+qué tipos de valores usa &lt;code&gt;greet&lt;/code&gt;. Con esto, TypeScript nos puede dar información sobre
+casos en los que hemos llamado a &lt;code&gt;greet&lt;/code&gt; incorrectamente.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Tipos del diario</title>
+      <link>//localhost:1313/notas/programacion/typescript/tipos/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>//localhost:1313/notas/programacion/typescript/tipos/</guid>
+      <description>
+        
+        
+        &lt;h2&gt;Los primitivos: &lt;code&gt;string&lt;/code&gt;, &lt;code&gt;number&lt;/code&gt; y &lt;code&gt;boolean&lt;/code&gt;&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;los-primitivos-string-number-y-boolean&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#los-primitivos-string-number-y-boolean&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;JavaScript tiene tres primitivos que se usan comúnmente: &lt;code&gt;string&lt;/code&gt;, &lt;code&gt;number&lt;/code&gt; y &lt;code&gt;boolean&lt;/code&gt;.
+Cada uno corresponde a un tipo en TypeScript.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;string&lt;/code&gt; representa una cadena de texto.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;number&lt;/code&gt; representa números.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;boolean&lt;/code&gt; representa &lt;code&gt;true&lt;/code&gt; o &lt;code&gt;false&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Arreglos&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;arreglos&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#arreglos&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Para especificar un arreglo como &lt;code&gt;[1, 2, 3]&lt;/code&gt;, podemos usar la sintaxis &lt;code&gt;number[]&lt;/code&gt;. Esta
+sintaxis funciona para cualquier tipo. También se puede usar &lt;code&gt;Array&amp;lt;number&amp;gt;&lt;/code&gt;, que significa
+lo mismo.&lt;/p&gt;
+&lt;h2&gt;&lt;code&gt;any&lt;/code&gt;&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;any&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#any&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;TypeScript también tiene un tipo especial llamado &lt;code&gt;any&lt;/code&gt;, que se puede usar cunado no
+queremos que un valor particular cause errores de tipado.&lt;/p&gt;
+&lt;p&gt;Cuando un valor es de tipo &lt;code&gt;any&lt;/code&gt;,  podemos acceder a cualquier propiedad de el, llamarlo
+como una función asignarle cualquier valor.&lt;/p&gt;
+&lt;p&gt;El tipo &lt;code&gt;any&lt;/code&gt; es útil cuando no queremos convencer a TypeScript de que una línea de código
+es correcta.&lt;/p&gt;
+&lt;h2&gt;Anotaciones de tipos en variables&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;anotaciones-de-tipos-en-variables&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#anotaciones-de-tipos-en-variables&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;En Cuando declaramos una variable usando &lt;code&gt;const&lt;/code&gt;, &lt;code&gt;var&lt;/code&gt; o &lt;code&gt;let&lt;/code&gt;, podemos agregar una
+anotación de tipo a la variable:&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;myName&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Alice&amp;#34;&lt;/span&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+&lt;div class=&#34;hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;En la mayoría de los casos esto no es necesario, pues TypeScript intenta inferir los tipos
+en nuestro código, pero siempre es bueno hacerlo.&lt;/p&gt;
+&lt;h2&gt;Funciones&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;funciones&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#funciones&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;TypeScript permite anotar el tipo tanto de las entradas como de la salida de las funciones&lt;/p&gt;
+&lt;h3&gt;Anotación de tipos de parámetros&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;anotación-de-tipos-de-parámetros&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#anotaci%c3%b3n-de-tipos-de-par%c3%a1metros&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Cuando declaramos una función, podemos agregar las anotaciones de tipos justo después de
+cada parámetro para declara los tipos de los parámetros que acepta la función:&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;greet&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;console&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;`Hello, &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;name&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;toUpperCase&lt;/span&gt;()&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+&lt;div class=&#34;hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Cuando un parámetro de una función tiene una anotación de tipo, los argumentos que le
+pasemos serán verificados.&lt;/p&gt;
+&lt;h3&gt;Anotación de tipo de retorno&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;anotación-de-tipo-de-retorno&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#anotaci%c3%b3n-de-tipo-de-retorno&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;También podemos anotar el tipo del valor de retorno de una función y va después de la lista
+de parámetros:&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;getFavoriteNumber&lt;/span&gt;()&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;number&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;retrun&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;26&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+&lt;div class=&#34;hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Como las anotaciones de variables, TypeScript generalmente infiere el tipo de la salida de
+la función.&lt;/p&gt;
+&lt;h3&gt;Funciones que regresan promesas&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;funciones-que-regresan-promesas&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#funciones-que-regresan-promesas&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Si queremos anotar el tipo de una función que regresa una promesa, debemos usar el tipo
+&lt;code&gt;Promise&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code&#34;&gt;
+
+&lt;div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;getFavoriteNumber&lt;/span&gt;()&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Promise&lt;/span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;number&lt;/span&gt;&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;26&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&#34;hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0&#34;&gt;
+  &lt;button
+    class=&#34;hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50&#34;
+    title=&#34;Copy code&#34;
+  &gt;
+    &lt;div class=&#34;hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+&lt;div class=&#34;hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4&#34;&gt;&lt;/div&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h3&gt;Funciones anónimas&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;funciones-anónimas&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#funciones-an%c3%b3nimas&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;
+      </description>
+    </item>
+    
+  </channel>
+</rss>
