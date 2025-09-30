@@ -115,4 +115,23 @@ teoría de tipos. Estas reglas son conocidas como **reglas estructurales** de la
 tipos. Hay seis conjuntos de reglas de inferencia:
 
 1. Reglas sobre la formación de contextos, tipos y sus elementos.
-2. 
+2. Reglas que postulan que la igualdad juiciosa es una relación de equivalencia.
+3. Reglas de conversión de variables.
+4. Reglas de substitución.
+5. Reglas de debilitamiento.
+6. El elemento genérico.
+
+### Reglas sobre formación de contextos, tipos y sus elementos
+Las siguientes reglas se siguen de las suposiciones sobre contextos, tipos y sus elementos
+y pueden usarse libremente en las derivaciones:
+
+\[
+  \begin{array}{ccc}
+    \dfrac{\Gamma, x: A \vdash B(x) ~~~ \text{type}}{\Gamma \vdash A ~~~ \text{type}} &
+    \dfrac{\Gamma \vdash A \stackrel{\cdot}{=} B ~~~ \text{type}}{\Gamma \vdash A ~~~ \text{type}} &
+    \dfrac{\Gamma \vdash A \stackrel{\cdot}{=} B ~~~ \text{type}}{\Gamma \vdash B ~~~ \text{type}} \\ & & \\
+    \dfrac{\Gamma \vdash a: A}{\Gamma \vdash A ~~~ \text{type}} &
+    \dfrac{\Gamma \vdash a \stackrel{\cdot}{=} b}{\Gamma \vdash a: A} &
+    \dfrac{\Gamma \vdash a \stackrel{\cdot}{=} b}{\Gamma \vdash b: A}
+  \end{array}
+\]
