@@ -60,66 +60,66 @@
       if (hasCurrent) {
         if (isMobile) {
           return {
-            minHeight: '320px',
-            holderHeight: '260px',
-            chargeStrength: -180,
-            chargeMax: 900,
-            chargeMin: 60,
-            linkDistance: 140,
-            linkStrength: 0.09,
-            velocityDecay: 0.2,
-            collisionRadius: 30,
+            minHeight: '300px',
+            holderHeight: '240px',
+            chargeStrength: -110,
+            chargeMax: 600,
+            chargeMin: 45,
+            linkDistance: 95,
+            linkStrength: 0.11,
+            velocityDecay: 0.21,
+            collisionRadius: 24,
             radialStrength: 0,
             zoomDelay: 650,
-            zoomPadding: 72
+            zoomPadding: 60
           };
         }
         return {
-          minHeight: '340px',
-          holderHeight: '280px',
-          chargeStrength: -240,
-          chargeMax: 1200,
-          chargeMin: 80,
-          linkDistance: 160,
-          linkStrength: 0.08,
-          velocityDecay: 0.18,
-          collisionRadius: 32,
+          minHeight: '310px',
+          holderHeight: '250px',
+          chargeStrength: -150,
+          chargeMax: 780,
+          chargeMin: 60,
+          linkDistance: 110,
+          linkStrength: 0.1,
+          velocityDecay: 0.19,
+          collisionRadius: 26,
           radialStrength: 0,
-          zoomDelay: 750,
-          zoomPadding: 80
+          zoomDelay: 700,
+          zoomPadding: 68
         };
       }
 
       if (isMobile) {
         return {
-          minHeight: '360px',
-          holderHeight: '300px',
-          chargeStrength: -420,
-          chargeMax: 1500,
-          chargeMin: 110,
-          linkDistance: 180,
-          linkStrength: 0.035,
+          minHeight: '330px',
+          holderHeight: '270px',
+          chargeStrength: -200,
+          chargeMax: 800,
+          chargeMin: 70,
+          linkDistance: 100,
+          linkStrength: 0.05,
           velocityDecay: 0.14,
-          collisionRadius: 44,
-          radialStrength: 0.001,
+          collisionRadius: 34,
+          radialStrength: 0,
           zoomDelay: 650,
-          zoomPadding: 96
+          zoomPadding: 80
         };
       }
 
       return {
-        minHeight: '460px',
-        holderHeight: '360px',
-        chargeStrength: -650,
-        chargeMax: 2100,
-        chargeMin: 160,
-        linkDistance: 240,
-        linkStrength: 0.025,
+        minHeight: '360px',
+        holderHeight: '280px',
+        chargeStrength: -220,
+        chargeMax: 900,
+        chargeMin: 80,
+        linkDistance: 130,
+        linkStrength: 0.04,
         velocityDecay: 0.12,
-        collisionRadius: 52,
-        radialStrength: 0.0015,
-        zoomDelay: 800,
-        zoomPadding: 110
+        collisionRadius: 38,
+        radialStrength: 0,
+        zoomDelay: 760,
+        zoomPadding: 90
       };
     })();
 
@@ -198,16 +198,16 @@
       })
       .nodeVal(function (node) {
         if (!hasCurrent) return 6.5;
-        return node && node.id === currentId ? 12 : 7;
+        return node && node.id === currentId ? 11 : 6.8;
       })
       .linkColor(function (link) {
-        if (!hasCurrent) return 'rgba(148, 163, 184, 0.28)';
+        if (!hasCurrent) return 'rgba(148, 163, 184, 0.32)';
         return linkTouchesCurrent(link, currentId)
           ? 'rgba(251, 146, 60, 0.9)'
-          : 'rgba(148, 163, 184, 0.28)';
+          : 'rgba(148, 163, 184, 0.32)';
       })
       .linkWidth(function (link) {
-        if (!hasCurrent) return 0.7;
+        if (!hasCurrent) return 0.8;
         return linkTouchesCurrent(link, currentId) ? 2 : 1;
       })
       .linkDirectionalParticles(function (link) {
