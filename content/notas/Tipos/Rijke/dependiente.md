@@ -41,7 +41,7 @@ son ejemplos de juicios.
 {{<callout type="idea">}}
 **Definición 1.1.1**: Hay cuatro tipos de **juicios** en la teoría de tipos de Marrtin-Löf:
 
-1. \(A\) es un **tipo**"(bien formado) en un contexto \(\Gamma\). Expresamos este juicio 
+1. \(A\) es un **tipo** (bien formado) en un contexto \(\Gamma\). Expresamos este juicio 
   como \[ \Gamma \vdash A ~~~ \text{type}. \]
 2. \(A\) y \(B\) son **tipos juiciosamente iguales** en un contexto \(\Gamma\). Expresamos 
   este juicio como \[\Gamma \vdash A \stackrel{\cdot}{=} B ~~~ \text{type}\]
@@ -150,5 +150,117 @@ de equivalencia son las siguientes:
     \dfrac{\Gamma \vdash a \stackrel{\cdot}{=} b: A ~~~ ~~~ \Gamma \vdash b \stackrel{\cdot}{=} c: A}{\Gamma \vdash a \stackrel{\cdot}{=} c: A}
   \end{array}
 \]
+
+### Reglas de conversión de variables
+Las **reglas de conversión de variables** son reglas que postulan que podemos convertir
+el tipo de una variable por un tipo juiciosamente igual.
+\[
+  \dfrac{\Gamma \vdash A \stackrel{\cdot}{=} A' ~~~ \text{type} ~~~ ~~~ \Gamma, x: A, \Delta \vdash B(x) ~~~ \text{type}}{\Gamma, x: A', \Delta \vdash B(x) ~~~ \text{type}}.
+\]
+
+En esta regla de conversión, el contexto \(\Gamma, x: A, \Delta\) es cualquier extensión 
+del contexto \(\Gamma, x: A\).
+
+Similarmente, hay reglas de conversión de variables para la igualdad juiciosa de tipos, 
+para elementos y para igualdad juiciosa de elementos. Podemos enunciar todas en una 
+usando una **tesis de juicio genérica** \(\mathcal{J}\), que pueden ser cualquiera de las 
+definidas en la definición [1.1.1](#def-1-1-1):
+
+\[
+  \dfrac{\Gamma \vdash A \stackrel{\cdot}{=} A' ~~~ ~~~ \Gamma, x: A, \Delta \vdash \mathcal{J}}{\Gamma, x: A', \Delta \vdash \mathcal{J}}.
+\]
+Una regla análoga de **conversión de elementos** convierte el tipo de un elemento a un tipo
+juiciosamente igual.
+
+### Substitución
+Supongamos que tenemos un tipo 
+\[
+  \Gamma, x: A, y_1: B_1, \ldots, y_n: B_n \vdash C ~~~ \text{type}
+\]
+y un elemento \(a: A\) en el contexto \(\Gamma\). Entonces podemos substituir
+simultáneamente \(a\) por todas las ocurrencias de \(x\) en los tipos 
+\(B_1, \ldots, B_n\) y \(C\) para obtener 
+
+\[
+  \Gamma, y_1: B_1[a/x], \ldots, y_n: B_n[a/x] \vdash C[a/x] ~~~ \text{type}. 
+\]
+
+Similarmente, podemos substituir \(a\) por \(x\) en un elemento \(c: C\) para obtener un 
+elemento \(c[a/x]: C[a/x]\). Así, la **regla de substitución** se enuncia para una 
+tesis de juicio genérica \(\mathcal{J}\):
+
+\[
+  \dfrac{\Gamma \vdash a: A ~~~ ~~~ \Gamma, x: A, \Delta \vdash \mathcal{J}}{\Gamma, \Delta[a/x] \vdash \mathcal{J}[a/x]}S.
+\]
+
+Añadimos dos "reglas de congruencia" para la substitución, postulando que la substitución 
+por elementos juiciosamente iguales resulta en tipos y elementos juiciosamente iguales:
+
+\[
+  \begin{array}{c}
+    \dfrac{\Gamma \vdash a \stackrel{\cdot}{=} a': A ~~~ ~~~ \Gamma, x: A, \Delta \vdash B ~~~ \text{type}}{\Gamma, \Delta[a/x] \vdash B[a/x] \stackrel{\cdot}{=} B[a'/x] ~~~ \text{type}} \\ \\
+    \dfrac{\Gamma \vdash a \stackrel{\cdot}{=} a': A ~~~ ~~~ \Gamma, x: A, \Delta \vdash b: B}{\Gamma, \Delta[a/x] \vdash b[a/x] \stackrel{\cdot}{=} b[a'/x]: B[a/x]}.
+  \end{array}
+\]
+
+<div id="def-1-3-1">
+{{<callout>}}
+**Definición 1.3.1**: Cuando \(B\) es una familia de tipos osbre \(A\) en un contexto 
+\(\Gamma\) y si tenemos \(a: A\), entonces también decimos que \(B[a/x]\) es la **fibra**
+de \(B\) en \(a\) y escribimos \(B(a)\) para referirnos a esta fibra.
+Cuando \(b\) es una sección de la familia \(B\) sobre \(A\) en el contexto \(\Gamma\), 
+llamamos al elemento \(b[a/x]\) el **valor** de \(b\) en \(a\) y escribimos \(b(a)\).
+{{</callout>}}
+</div>
+
+### Debilitamiento
+Si se nos da un tipo \(A\) en un contexto \(\Gamma\), entonces cualquier juicio hecho 
+en un contexto más largo \(\Gamma, \Delta\) también se puede hacer en el contexto 
+\(\Gamma, x: A, \Delta\) para una nueva variable \(x\). La **regla de debilitamiento**
+afirma que el debilitamiento por un tipo \(A\) en un contexto preserva la buena formación 
+y la igualdad juiciosa de tipos y elementos.
+
+\[
+  \dfrac{\Gamma \vdash A ~~~ \text{type} ~~~ ~~~ \Gamma, \Delta \vdash \mathcal{J}}{\Gamma, x: A, \Delta \vdash \mathcal{J}}W.
+\]
+
+Este proceso de expandir el contexto por una variable de tipo \(A\) se llama 
+**debilitamiento** por \(A\).
+
+En la situación más simple, tenemos dos tipos \(A\) y \(B\) en un contexto \(\Gamma\).
+Entonces podemos debilitar a \(B\) por \(A\) como sigue:
+
+\[
+  \dfrac{\Gamma \vdash A ~~~ \text{type} ~~~ ~~~ \Gamma \vdash B ~~~ \text{type}}{\Gamma, x: A \vdash B ~~~  \text{type}}
+\]
+El tipo \(B\) en el contexto \(\Gamma, x: A\) es llamado la **familia constante** \(B\) o 
+la **familia trivial** \(B\).
+
+### Los elementos genéricos
+Si tenemos un tipo \(A\) en un contexto \(\Gamma\), podemos debilitar a \(A\) por sí mismo 
+para obtener que \(A\) es un tipo en el contexto \(\Gamma, x: A\). La regla del 
+**elemento genérico** afirma que cualquier elemento hipotético \(x: A\) en el contexto 
+\(\Gamma, x: A\) es también un elemento de tipo \(A\) en el contexto \(\Gamma, x: A\).
+
+\[
+  \dfrac{\Gamma \vdash A ~~~ \text{type}}{\Gamma, x: A \vdash x: A}\delta.
+\]
+
+Esta regla también es conocida como la **regla de la variable**, nos da una 
+*función identidad* sobre el tipo \(A\) en el contexto \(\Gamma\).
+
+## Derivaciones
+Una **derivación** en la teoría de tipos es un árbol finito en el que cada nodo es una 
+regla de inferencia válida. 
+
+
+
+
+
+
+
+
+
+
 
 

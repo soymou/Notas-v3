@@ -50,7 +50,26 @@ igualdad juiciosa. Es decir, tenemos la **regla de congruencia** para \(\Pi\)-ti
 \]
 
 ## La regla de \(\Pi\)-introducción
+La regla de introducción para funciones dependientes nos dice cómo podemos construir
+funciones dependientes del tipo \(\Pi_{(x: A)} B(x)\). La idea es que una función 
+dependiente \(f: \Pi_{(x: A)} B(x)\) es una operación que lleva a  \(x: A\) en 
+\(f(x): B(x)\). Así, la regla de introducción de tipos dependientes postula que para 
+construir una función dependiente debemos construir un término \(b(x): B(x)\) indizado 
+por \(x: A\) en un contexto \(\Gamma\): 
 
+\[
+  \dfrac{\Gamma, x: A \vdash b(x): B(x)}{\Gamma \vdash \lambda x. b(x) : \Pi_{(x: A)} B(x)}\lambda.
+\]
+
+Esta regla de introducción para funciones dependientes también es llamada la 
+**regla de \(\lambda\)-abstracción** y decimos que la \(\lambda\)-abstracción 
+\(\lambda x. b(x)\) **liga** la variable \(x\) en \(b\). 
+También requerimos que la \(\lambda\)-abstracción preserve la igualdad juiciosa. Así que 
+postulamos la **regla de congruencia** para la \(\lambda\)-abstracción, que dice
+
+\[
+  \dfrac{\Gamma, x: A  \vdash b(x) \stackrel{\cdot}{=} b'(x): B(x)}{\Gamma \vdash \lambda x. b(x) \stackrel{\cdot}{=} \lambda x. b'(x): \Pi_{(x: A)} B(x)}\lambda-eq.
+\]
 
 
 

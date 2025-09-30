@@ -18,6 +18,20 @@
     return window.matchMedia('(max-width: 768px)').matches;
   }
 
+  function isFrontmatterLink(link) {
+    if (!link || typeof link.kind !== 'string') return false;
+    return link.kind === 'frontmatter-next' || link.kind === 'frontmatter-prev';
+  }
+
+  function isContentLink(link) {
+    if (!link || typeof link.kind !== 'string') return false;
+    return link.kind === 'markdown' || link.kind === 'html';
+  }
+
+  function isNoteLink(link) {
+    return isFrontmatterLink(link) || isContentLink(link);
+  }
+
   onReady(function () {
     const dataEl = document.getElementById('notes-graph-data');
     if (!dataEl) return;
@@ -201,18 +215,24 @@
         return node && node.id === currentId ? 11 : 6.8;
       })
       .linkColor(function (link) {
-        if (!hasCurrent) return 'rgba(148, 163, 184, 0.32)';
-        return linkTouchesCurrent(link, currentId)
-          ? 'rgba(251, 146, 60, 0.9)'
-          : 'rgba(148, 163, 184, 0.32)';
+        var noteBaseColor = 'rgba(251, 146, 60, 0.95)';
+        var noteActiveColor = 'rgba(251, 146, 60, 0.95)';
+        var fallback = 'rgba(148, 163, 184, 0.32)';
+        if (!isNoteLink(link)) {
+          return fallback;
+        }
+        return hasCurrent && linkTouchesCurrent(link, currentId)
+          ? noteActiveColor
+          : noteBaseColor;
       })
       .linkWidth(function (link) {
-        if (!hasCurrent) return 0.8;
-        return linkTouchesCurrent(link, currentId) ? 2 : 1;
+        var noteWidth = 2;
+        var fallbackWidth = 0.8;
+        return isNoteLink(link) ? noteWidth : fallbackWidth;
       })
       .linkDirectionalParticles(function (link) {
-        if (!hasCurrent) return 0;
-        return linkTouchesCurrent(link, currentId) ? 2 : 0;
+        if (!isNoteLink(link)) return 0;
+        return hasCurrent && linkTouchesCurrent(link, currentId) ? 2 : 1;
       })
       .linkDirectionalParticleSpeed(0.0065)
       .d3VelocityDecay(layout.velocityDecay)
