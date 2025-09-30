@@ -34,15 +34,30 @@ Render Jupyter Notebook
   {{- end -}}
 {{- end -}}
 
-{{- $language := index $data "metadata" "language_info" "name" | default "python" -}}
+{{- $languageName := index $data "metadata" "language_info" "name" | default "python" -}}
+{{- $languageMap := dict
+  "lean4" "lean"
+  "python3" "python"
+  "py" "python"
+  "javascript" "js"
+  "typescript" "ts"
+  "c++" "cpp"
+  "c#" "csharp"
+  "shell" "bash"
+-}}
+{{- $languageKey := strings.ToLower $languageName -}}
+{{- $language := index $languageMap $languageKey | default $languageKey -}}
 
 {{- with index $data "cells" -}}
   {{- range $cell := . -}}
     {{- if eq (index $cell "cell_type") "code" -}}
+      {{- $cellLangName := index $cell "metadata" "language" | default $language -}}
+      {{- $cellLangKey := strings.ToLower $cellLangName -}}
+      {{- $cellLang := index $languageMap $cellLangKey | default $cellLangKey -}}
       {{- $source := index $cell "source" -}}
       {{- $sourceContent := (cond (reflect.IsSlice $source) (delimit $source "") $source) -}}
 {{- with ($sourceContent | strings.Chomp) -}}
-{{ (printf "\n\n```%s\n%s\n```\n" $language .) | safeHTML -}}
+{{ (printf "\n\n```%s\n%s\n```\n" $cellLang .) | safeHTML -}}
 {{- end -}}
 
       {{- $scratch := newScratch -}}
@@ -81,7 +96,7 @@ Render Jupyter Notebook
       {{- if $messages -}}
         {{- range $messages -}}
           <div class="hextra-code-block hextra-code-block-result hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-            {{- partial "components/codeblock" (dict "lang" $language "content" . "options" "") -}}
+            {{- partial "components/codeblock" (dict "lang" $cellLang "content" . "options" (dict)) -}}
             {{- if or (eq site.Params.highlight.copy.enable nil) (site.Params.highlight.copy.enable) -}}
               {{- partialCached "components/codeblock-copy-button" (dict "filename" "") "" -}}
             {{- end -}}

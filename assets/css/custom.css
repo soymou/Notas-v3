@@ -55,3 +55,49 @@ html.dark .hextra-code-block .highlight pre::before {
 html.dark .hextra-code-block-result .highlight pre::before {
   background: rgba(248, 113, 113, 0.7);
 }
+
+/* Lean syntax highlighting tweaks */
+.chroma .kn,
+.chroma .kr,
+.chroma .kd {
+  color: #f92672;
+  font-weight: 600;
+}
+
+.chroma .bp,
+.chroma .o {
+  color: #f92672;
+}
+
+.chroma .n,
+.chroma .nn,
+.chroma .nc,
+.chroma .no {
+  color: #a6e22e;
+}
+
+.chroma .nf {
+  color: #66d9ef;
+}
+
+.chroma .mi,
+.chroma .il {
+  color: #ae81ff;
+}
+
+.chroma .s,
+.chroma .s1,
+.chroma .s2 {
+  color: #e6db74;
+}
+
+.chroma .c,
+.chroma .cm,
+.chroma .cp {
+  color: #75715e;
+  font-style: italic;
+}
+
+.chroma .w {
+  color: inherit;
+}

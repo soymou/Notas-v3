@@ -20,7 +20,8 @@ markup:
 
   # enable hextra syntax highlight
   highlight:
-    noClasses: true
+    noClasses: false
+    style: dracula
 
 menu:
   main:
