@@ -8,7 +8,7 @@
   }
 
   function linkTouchesCurrent(link, currentId) {
-    if (!link) return false;
+    if (!currentId || !link) return false;
     const src = typeof link.source === 'object' ? link.source.id : link.source;
     const tgt = typeof link.target === 'object' ? link.target.id : link.target;
     return src === currentId || tgt === currentId;
@@ -30,36 +30,38 @@
       return;
     }
 
-    const currentId = dataEl.dataset.current;
-    if (!payload || !Array.isArray(payload.nodes) || !currentId) {
+    const currentId = dataEl.dataset.current || null;
+    if (!payload || !Array.isArray(payload.nodes)) {
       return;
     }
 
     const nodes = payload.nodes;
     const links = Array.isArray(payload.edges) ? payload.edges : [];
 
-    const neighborIds = new Set([currentId]);
-    links.forEach(function (link) {
-      const src = typeof link.source === 'object' ? link.source.id : link.source;
-      const tgt = typeof link.target === 'object' ? link.target.id : link.target;
-      if (src === currentId) neighborIds.add(tgt);
-      if (tgt === currentId) neighborIds.add(src);
-    });
+    const hasCurrent = Boolean(currentId);
+    let filteredNodes = nodes.slice();
+    let filteredLinks = links.slice();
+    let neighborIds = new Set();
 
-    const hasNeighbor = neighborIds.size > 1;
-    const filteredNodes = hasNeighbor
-      ? nodes.filter(function (node) { return neighborIds.has(node.id); })
-      : nodes.slice();
+    if (hasCurrent) {
+      neighborIds = new Set([currentId]);
+      links.forEach(function (link) {
+        const src = typeof link.source === 'object' ? link.source.id : link.source;
+        const tgt = typeof link.target === 'object' ? link.target.id : link.target;
+        if (src === currentId) neighborIds.add(tgt);
+        if (tgt === currentId) neighborIds.add(src);
+      });
 
-    const allowedIds = new Set(filteredNodes.map(function (node) { return node.id; }));
-
-    const filteredLinks = hasNeighbor
-      ? links.filter(function (link) {
+      if (neighborIds.size > 1) {
+        filteredNodes = nodes.filter(function (node) { return neighborIds.has(node.id); });
+        const allowedIds = new Set(filteredNodes.map(function (node) { return node.id; }));
+        filteredLinks = links.filter(function (link) {
           const src = typeof link.source === 'object' ? link.source.id : link.source;
           const tgt = typeof link.target === 'object' ? link.target.id : link.target;
           return allowedIds.has(src) && allowedIds.has(tgt);
-        })
-      : links.slice();
+        });
+      }
+    }
 
     const content = document.querySelector('.content');
     const container = document.createElement('section');
@@ -84,8 +86,10 @@
     heading.style.gap = '0.5rem';
 
     const badge = document.createElement('span');
-    const totalLabel = hasNeighbor ? filteredNodes.length : nodes.length;
-    badge.textContent = hasNeighbor
+    const totalLabel = hasCurrent && neighborIds.size > 1
+      ? filteredNodes.length
+      : nodes.length;
+    badge.textContent = (hasCurrent && neighborIds.size > 1)
       ? totalLabel + ' notas conectadas'
       : totalLabel + ' notas en el grafo';
     badge.style.fontSize = '0.75rem';
@@ -133,21 +137,26 @@
       })
       .nodeColor(function (node) {
         if (!node) return fallbackColor;
+        if (!hasCurrent) return fallbackColor;
         if (node.id === currentId) return accentColor;
         return neighborIds.has(node.id) ? neighborColor : fallbackColor;
       })
       .nodeVal(function (node) {
+        if (!hasCurrent) return 6;
         return node && node.id === currentId ? 12 : 6;
       })
       .linkColor(function (link) {
+        if (!hasCurrent) return 'rgba(148, 163, 184, 0.35)';
         return linkTouchesCurrent(link, currentId)
           ? 'rgba(251, 146, 60, 0.9)'
           : 'rgba(148, 163, 184, 0.35)';
       })
       .linkWidth(function (link) {
+        if (!hasCurrent) return 1;
         return linkTouchesCurrent(link, currentId) ? 2 : 1;
       })
       .linkDirectionalParticles(function (link) {
+        if (!hasCurrent) return 0;
         return linkTouchesCurrent(link, currentId) ? 2 : 0;
       })
       .linkDirectionalParticleSpeed(0.007)
