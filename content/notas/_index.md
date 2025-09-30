@@ -1,6 +1,6 @@
 ---
-title: Documentation
-next: first-page
+title: Notas
+next: Tipos/_index
 ---
 
 This is a demo of the theme's documentation layout.

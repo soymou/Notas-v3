@@ -1,5 +1,5 @@
 # Hugo configuration file
-title: My Site
+title: Junoy
 
 # import hextra as module
 module:
@@ -9,48 +9,49 @@ module:
 markup:
   # allow raw html
   goldmark:
+    extensions:
+      passthrough:
+        delimiters:
+          block: [['\[', '\]'], ['$$', '$$']]
+          inline: [['\(', '\)']]
+        enable: true
     renderer:
       unsafe: true
 
   # enable hextra syntax highlight
   highlight:
-    noClasses: false
+    noClasses: true
 
 menu:
   main:
-    - name: Docs
-      pageRef: /docs
+    - name: Notas
+      pageRef: /notas
       weight: 1
-    - name: About
+    - name: Yo
       pageRef: /about
       weight: 2
-    - name: Contact ↗
-      url: "https://github.com/imfing"
-      weight: 3
     - name: Search
       weight: 4
       params:
         type: search
     - name: GitHub
       weight: 5
-      url: "https://github.com/imfing/hextra-starter-template"
+      url: "https://github.com/soymou"
       params:
         icon: github
-    - name: Twitter
-      weight: 6
-      url: "https://twitter.com/"
-      params:
-        icon: x-twitter
 
 params:
   navbar:
     displayTitle: true
-    displayLogo: false
+    displayLogo: true
+    logo:
+      path: images/logo2.svg
+      dark: images/logo2.svg
 
   footer:
     displayCopyright: false
-    displayPoweredBy: true
+    displayPoweredBy: false
 
   editURL:
-    enable: true
+    enable: false
     base: "https://github.com/imfing/hextra-starter-template/edit/main/content"
