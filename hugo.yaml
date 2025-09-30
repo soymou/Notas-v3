@@ -43,7 +43,7 @@ menu:
 params:
   navbar:
     displayTitle: true
-    displayLogo: true
+    displayLogo: false
     logo:
       path: images/logo2.svg
       dark: images/logo2.svg
