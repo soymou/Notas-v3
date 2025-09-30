@@ -39,87 +39,87 @@
       return;
     }
 
-    const nodes = payload.nodes;
-    const links = Array.isArray(payload.edges) ? payload.edges : [];
+    const nodes = payload.nodes.slice();
+    const links = Array.isArray(payload.edges) ? payload.edges.slice() : [];
 
     const hasCurrent = Boolean(currentId);
     const isMobile = detectMobile();
 
-    let filteredNodes = nodes.slice();
-    let filteredLinks = links.slice();
-    let neighborIds = new Set();
-
+    const neighborIds = new Set();
     if (hasCurrent) {
-      neighborIds = new Set([currentId]);
+      neighborIds.add(currentId);
       links.forEach(function (link) {
         const src = typeof link.source === 'object' ? link.source.id : link.source;
         const tgt = typeof link.target === 'object' ? link.target.id : link.target;
         if (src === currentId) neighborIds.add(tgt);
         if (tgt === currentId) neighborIds.add(src);
       });
-
-      if (neighborIds.size > 1) {
-        filteredNodes = nodes.filter(function (node) { return neighborIds.has(node.id); });
-        const allowedIds = new Set(filteredNodes.map(function (node) { return node.id; }));
-        filteredLinks = links.filter(function (link) {
-          const src = typeof link.source === 'object' ? link.source.id : link.source;
-          const tgt = typeof link.target === 'object' ? link.target.id : link.target;
-          return allowedIds.has(src) && allowedIds.has(tgt);
-        });
-      }
     }
 
     const layout = (function () {
       if (hasCurrent) {
+        if (isMobile) {
+          return {
+            minHeight: '320px',
+            holderHeight: '260px',
+            chargeStrength: -180,
+            chargeMax: 900,
+            chargeMin: 60,
+            linkDistance: 140,
+            linkStrength: 0.09,
+            velocityDecay: 0.2,
+            collisionRadius: 30,
+            radialStrength: 0,
+            zoomDelay: 650,
+            zoomPadding: 72
+          };
+        }
         return {
-          minHeight: '320px',
-          holderHeight: '260px',
-          chargeStrength: -70,
-          chargeMax: 360,
-          chargeMin: 40,
-          linkDistance: 60,
-          linkStrength: null,
-          velocityDecay: 0.3,
-          collisionRadius: 0,
+          minHeight: '340px',
+          holderHeight: '280px',
+          chargeStrength: -240,
+          chargeMax: 1200,
+          chargeMin: 80,
+          linkDistance: 160,
+          linkStrength: 0.08,
+          velocityDecay: 0.18,
+          collisionRadius: 32,
           radialStrength: 0,
           zoomDelay: 750,
-          zoomPadding: 48,
-          zoomK: null
+          zoomPadding: 80
         };
       }
 
       if (isMobile) {
         return {
-          minHeight: '340px',
-          holderHeight: '280px',
+          minHeight: '360px',
+          holderHeight: '300px',
           chargeStrength: -420,
           chargeMax: 1500,
-          chargeMin: 80,
-          linkDistance: 200,
-          linkStrength: 0.045,
-          velocityDecay: 0.16,
-          collisionRadius: 42,
-          radialStrength: 0,
+          chargeMin: 110,
+          linkDistance: 180,
+          linkStrength: 0.035,
+          velocityDecay: 0.14,
+          collisionRadius: 44,
+          radialStrength: 0.001,
           zoomDelay: 650,
-          zoomPadding: 90,
-          zoomK: null
+          zoomPadding: 96
         };
       }
 
       return {
         minHeight: '460px',
-        holderHeight: '380px',
-        chargeStrength: -900,
-        chargeMax: 2400,
+        holderHeight: '360px',
+        chargeStrength: -650,
+        chargeMax: 2100,
         chargeMin: 160,
-        linkDistance: 360,
-        linkStrength: 0.03,
+        linkDistance: 240,
+        linkStrength: 0.025,
         velocityDecay: 0.12,
         collisionRadius: 52,
-        radialStrength: 0.005,
-        zoomDelay: 900,
-        zoomPadding: 160,
-        zoomK: null
+        radialStrength: 0.0015,
+        zoomDelay: 800,
+        zoomPadding: 110
       };
     })();
 
@@ -146,12 +146,7 @@
     heading.style.gap = '0.5rem';
 
     const badge = document.createElement('span');
-    const totalLabel = hasCurrent && neighborIds.size > 1
-      ? filteredNodes.length
-      : nodes.length;
-    badge.textContent = (hasCurrent && neighborIds.size > 1)
-      ? totalLabel + ' notas conectadas'
-      : totalLabel + ' notas en el grafo';
+    badge.textContent = nodes.length + ' notas en el grafo';
     badge.style.fontSize = '0.75rem';
     badge.style.fontWeight = '500';
     badge.style.color = 'rgba(15, 118, 110, 0.95)';
@@ -188,7 +183,7 @@
     const fallbackColor = '#94a3b8';
 
     const graph = ForceGraph()(graphHolder)
-      .graphData({ nodes: filteredNodes, links: filteredLinks })
+      .graphData({ nodes: nodes, links: links })
       .nodeId('id')
       .nodeLabel(function (node) {
         if (!node) return '';
@@ -202,17 +197,17 @@
         return neighborIds.has(node.id) ? neighborColor : fallbackColor;
       })
       .nodeVal(function (node) {
-        if (!hasCurrent) return 6;
-        return node && node.id === currentId ? 12 : 6;
+        if (!hasCurrent) return 6.5;
+        return node && node.id === currentId ? 12 : 7;
       })
       .linkColor(function (link) {
-        if (!hasCurrent) return 'rgba(148, 163, 184, 0.24)';
+        if (!hasCurrent) return 'rgba(148, 163, 184, 0.28)';
         return linkTouchesCurrent(link, currentId)
           ? 'rgba(251, 146, 60, 0.9)'
-          : 'rgba(148, 163, 184, 0.24)';
+          : 'rgba(148, 163, 184, 0.28)';
       })
       .linkWidth(function (link) {
-        if (!hasCurrent) return 0.5;
+        if (!hasCurrent) return 0.7;
         return linkTouchesCurrent(link, currentId) ? 2 : 1;
       })
       .linkDirectionalParticles(function (link) {
@@ -240,13 +235,11 @@
       }
     }
 
-    if (!hasCurrent) {
-      if (layout.collisionRadius && typeof ForceGraph === 'function' && ForceGraph.d3ForceCollide) {
-        graph.d3Force('collide', ForceGraph.d3ForceCollide(layout.collisionRadius));
-      }
-      if (layout.radialStrength && typeof ForceGraph === 'function' && ForceGraph.d3ForceRadial) {
-        graph.d3Force('radial', ForceGraph.d3ForceRadial(0).strength(layout.radialStrength));
-      }
+    if (layout.collisionRadius && typeof ForceGraph === 'function' && ForceGraph.d3ForceCollide) {
+      graph.d3Force('collide', ForceGraph.d3ForceCollide(layout.collisionRadius));
+    }
+    if (layout.radialStrength && typeof ForceGraph === 'function' && ForceGraph.d3ForceRadial) {
+      graph.d3Force('radial', ForceGraph.d3ForceRadial(0).strength(layout.radialStrength));
     }
 
     graph.onNodeClick(function (node) {
@@ -262,9 +255,6 @@
 
     setTimeout(function () {
       try {
-        if (layout.zoomK) {
-          graph.zoom(layout.zoomK, 0);
-        }
         graph.zoomToFit(layout.zoomDelay, layout.zoomPadding);
       } catch (err) {
         /* noop */

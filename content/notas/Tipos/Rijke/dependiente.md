@@ -92,9 +92,9 @@ Se introducen como sigue:
 \[
   \frac{\Gamma \vdash a: A}{\Gamma, x: A \vdash a = x ~~~ \text{type}}.
 \]
-Esta regla asegura que dado un elemento \(a: A\) en un contexto \(\Gamma\), podemo formar
+Esta regla asegura que dado un elemento \(a: A\) en un contexto \(\Gamma\), podemos formar
 el tipo \(a = x\) en el contexto \(\Gamma, x: A\). El tipo \(a = x\) en el contexto 
-\(\Gamma, x: A\) es un ejemplo de una famliia de tipos sobre \(A\) en el contexto 
+\(\Gamma, x: A\) es un ejemplo de una familia de tipos sobre \(A\) en el contexto 
 \(\Gamma\). 
 
 <div id="def-1-2-2">

@@ -22,7 +22,7 @@ Hay cuatro reglas principales para los \(\Pi\)-tipos:
 1. La *regla de formación*, que nos dice como formar tipos función dependiente.
 2. La *regla de introducción*, que nos dice como introducir términos del tipo función 
   dependiente.
-3. La *regla de eliminación*, que nos dice como usar téminos arbitrarios del tipo función
+3. La *regla de eliminación*, que nos dice como usar términos arbitrarios del tipo función
   dependiente.
 4. Las *reglas de computación*, que nos dicen como interactúan las reglas de introducción 
   y de eliminación. 

@@ -1,0 +1,68 @@
+{{- $ctx := .context -}}
+{{- $raw := .ref | default "" -}}
+{{- $ref := $raw | strings.TrimSpace -}}
+{{- if not $ref -}}
+  {{- return nil -}}
+{{- end -}}
+{{- $ref = replaceRE `[#?].*$` "" $ref -}}
+{{- if not $ref -}}
+  {{- return nil -}}
+{{- end -}}
+{{- if or (strings.HasPrefix $ref "http://") (strings.HasPrefix $ref "https://") -}}
+  {{- return nil -}}
+{{- end -}}
+
+{{- $candidates := slice $ref -}}
+
+{{- if strings.HasSuffix $ref "/" -}}
+  {{- $candidates = $candidates | append (strings.TrimSuffix $ref "/") -}}
+{{- else -}}
+  {{- $candidates = $candidates | append (printf "%s/" $ref) -}}
+{{- end -}}
+
+{{- if strings.HasPrefix $ref "/" -}}
+  {{- $trimmed := strings.TrimPrefix $ref "/" -}}
+  {{- $candidates = $candidates | append $trimmed -}}
+  {{- $candidates = $candidates | append (printf "%s/" $trimmed) -}}
+{{- end -}}
+
+{{- if $ctx -}}
+  {{- with $ctx.GetPage $ref -}}
+    {{- return . -}}
+  {{- end -}}
+  {{- with $ctx.CurrentSection -}}
+    {{- with (.GetPage $ref) -}}
+      {{- return . -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $base := strings.TrimSuffix (strings.TrimPrefix $ctx.RelPermalink "/") "/" -}}
+  {{- if $base -}}
+    {{- $joined := path.Clean (path.Join "/" $base $ref) -}}
+    {{- $candidates = $candidates | append $joined -}}
+    {{- $trimJoined := strings.TrimPrefix $joined "/" -}}
+    {{- $candidates = $candidates | append $trimJoined -}}
+    {{- $candidates = $candidates | append (printf "%s/" $trimJoined) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- range $candidates -}}
+  {{- $cand := . -}}
+  {{- if not $cand -}}
+    {{- continue -}}
+  {{- end -}}
+  {{- with site.GetPage $cand -}}
+    {{- return . -}}
+  {{- end -}}
+  {{- if strings.HasPrefix $cand "/" -}}
+    {{- with site.GetPage (strings.TrimPrefix $cand "/") -}}
+      {{- return . -}}
+    {{- end -}}
+  {{- else -}}
+    {{- with site.GetPage (printf "/%s" $cand) -}}
+      {{- return . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return nil -}}
