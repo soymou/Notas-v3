@@ -67,13 +67,13 @@
     const container = document.createElement('section');
     container.id = 'notes-graph';
     container.setAttribute('aria-label', 'Mapa de notas relacionado');
-    container.style.margin = '2.5rem 0';
+    container.style.margin = '2.6rem 0';
     container.style.padding = '1.5rem 1rem 1rem';
     container.style.border = '1px solid rgba(148, 163, 184, 0.3)';
     container.style.borderRadius = '1rem';
     container.style.background = 'linear-gradient(0deg, rgba(148,163,184,0.14), rgba(148,163,184,0.06))';
     container.style.backdropFilter = 'blur(4px)';
-    container.style.minHeight = hasCurrent ? '320px' : '360px';
+    container.style.minHeight = hasCurrent ? '320px' : '380px';
     container.style.boxSizing = 'border-box';
 
     const heading = document.createElement('h2');
@@ -105,7 +105,7 @@
 
     const graphHolder = document.createElement('div');
     graphHolder.id = 'notes-graph-viewport';
-    graphHolder.style.height = hasCurrent ? '260px' : '320px';
+    graphHolder.style.height = hasCurrent ? '260px' : '340px';
     graphHolder.style.width = '100%';
     graphHolder.style.position = 'relative';
     container.appendChild(graphHolder);
@@ -146,13 +146,13 @@
         return node && node.id === currentId ? 12 : 6;
       })
       .linkColor(function (link) {
-        if (!hasCurrent) return 'rgba(148, 163, 184, 0.35)';
+        if (!hasCurrent) return 'rgba(148, 163, 184, 0.3)';
         return linkTouchesCurrent(link, currentId)
           ? 'rgba(251, 146, 60, 0.9)'
-          : 'rgba(148, 163, 184, 0.35)';
+          : 'rgba(148, 163, 184, 0.3)';
       })
       .linkWidth(function (link) {
-        if (!hasCurrent) return 1;
+        if (!hasCurrent) return 0.8;
         return linkTouchesCurrent(link, currentId) ? 2 : 1;
       })
       .linkDirectionalParticles(function (link) {
@@ -160,19 +160,31 @@
         return linkTouchesCurrent(link, currentId) ? 2 : 0;
       })
       .linkDirectionalParticleSpeed(0.007)
+      .d3VelocityDecay(hasCurrent ? 0.3 : 0.18)
       .width(graphHolder.clientWidth)
       .height(graphHolder.clientHeight);
 
     const chargeForce = graph.d3Force('charge');
     if (chargeForce) {
-      chargeForce.strength(hasCurrent ? -80 : -260).distanceMax(hasCurrent ? 400 : 900);
+      if (hasCurrent) {
+        chargeForce.strength(-80).distanceMax(400);
+      } else {
+        chargeForce.strength(-420).distanceMax(1400);
+      }
     }
 
     const linkForce = graph.d3Force('link');
     if (linkForce) {
       linkForce.distance(function () {
-        return hasCurrent ? 40 : 160;
+        return hasCurrent ? 60 : 220;
       });
+      if (!hasCurrent) {
+        linkForce.strength(0.05);
+      }
+    }
+
+    if (!hasCurrent && typeof ForceGraph.d3ForceCollide === 'function') {
+      graph.d3Force('collision', ForceGraph.d3ForceCollide(38));
     }
 
     graph.onNodeClick(function (node) {
@@ -188,7 +200,7 @@
 
     setTimeout(function () {
       try {
-        graph.zoomToFit(hasCurrent ? 600 : 900, hasCurrent ? 48 : 96);
+        graph.zoomToFit(hasCurrent ? 600 : 950, hasCurrent ? 48 : 120);
       } catch (err) {
         /* noop */
       }
