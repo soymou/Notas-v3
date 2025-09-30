@@ -1,4 +1,11 @@
-{{- if and .IsPage (eq .Section "notas") -}}
+{{- $isNotasContext := false -}}
+{{- if .IsPage -}}
+  {{- $isNotasContext = eq .Section "notas" -}}
+{{- else if .IsSection -}}
+  {{- $isNotasContext = eq .Section "notas" -}}
+{{- end -}}
+
+{{- if $isNotasContext -}}
   {{- $notes := where site.RegularPages "Section" "notas" -}}
   {{- if gt (len $notes) 0 -}}
     {{- $nodes := slice -}}
@@ -108,8 +115,13 @@
       {{- end -}}
     {{- end -}}
 
+    {{- $current := "" -}}
+    {{- if .IsPage -}}
+      {{- $current = .RelPermalink -}}
+    {{- end -}}
+
     {{- $graph := dict "nodes" $nodes "edges" $edges -}}
-    <script type="application/json" id="notes-graph-data" data-current="{{ .RelPermalink }}" data-total="{{ len $notes }}">{{ $graph | jsonify | safeJS }}</script>
+    <script type="application/json" id="notes-graph-data" data-current="{{ $current }}" data-total="{{ len $notes }}">{{ $graph | jsonify | safeJS }}</script>
     <script defer src="https://unpkg.com/force-graph@1.43.4/dist/force-graph.min.js"></script>
     <script defer src="{{ "/js/notes-graph.js" | relURL }}"></script>
   {{- end -}}
