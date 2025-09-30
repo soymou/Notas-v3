@@ -1,0 +1,97 @@
+{{- /*
+Render Jupyter Notebook
+
+@param {string} 0 The path of the Jupyter Notebook.
+
+@example {{% jupyter "notebook.ipynb" %}}
+*/ -}}
+
+{{- $path := .Get 0 -}}
+{{- $data := "" -}}
+{{- $page := .Page -}}
+
+{{- $isLocal := not (urls.Parse $path).Scheme -}}
+{{- $isPage := and (eq .Page.Kind "page") (not .Page.BundleType) -}}
+
+{{/* https://gohugo.io/functions/transform/unmarshal/ */}}
+{{- if (not $isLocal) -}}
+  {{- with resources.GetRemote $path -}}
+    {{- with unmarshal .Content -}}{{- $data = . -}}{{- end -}}
+  {{- else -}}
+    {{- errorf "Remote resource not found: %s" $path -}}
+  {{- end -}}
+{{- else if (not $isPage) -}}
+  {{- with .Page.Resources.Get $path -}}
+    {{- with unmarshal .Content -}}{{- $data = . -}}{{- end -}}
+  {{- else -}}
+    {{- errorf "Local resource not found: %s" $path -}}
+  {{- end -}}
+{{- else -}}
+  {{- with resources.Get $path -}}
+    {{- with unmarshal .Content -}}{{- $data = . -}}{{- end -}}
+  {{- else -}}
+    {{- errorf "Local resource not found: %s" $path -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $language := index $data "metadata" "language_info" "name" | default "python" -}}
+
+{{- with index $data "cells" -}}
+  {{- range $cell := . -}}
+    {{- if eq (index $cell "cell_type") "code" -}}
+      {{- $source := index $cell "source" -}}
+      {{- $sourceContent := (cond (reflect.IsSlice $source) (delimit $source "") $source) -}}
+{{- with ($sourceContent | strings.Chomp) -}}
+{{ (printf "\n\n```%s\n%s\n```\n" $language .) | safeHTML -}}
+{{- end -}}
+
+      {{- $scratch := newScratch -}}
+      {{- $scratch.Set "messages" (slice) -}}
+      {{- $outputs := index $cell "outputs" -}}
+      {{- range $output := $outputs -}}
+        {{- if eq (index $output "output_type") "display_data" -}}
+          {{- $data := index $output "data" -}}
+          {{- with index $data "text/plain" -}}
+            {{- $textContent := (cond (reflect.IsSlice .) (delimit . "") .) -}}
+            {{- $normalized := replace $textContent "\r\n" "\n" -}}
+            {{- $parts := split $normalized "Raw output:\n" -}}
+            {{- if ge (len $parts) 2 -}}
+              {{- $jsonStr := trim (index $parts 1) " \n" -}}
+              {{- with transform.Unmarshal $jsonStr -}}
+                {{- with index . "messages" -}}
+                  {{- range . -}}
+                    {{- with index . "data" -}}
+                      {{- $message := strings.Trim . "\r\n" -}}
+                      {{- $existing := $scratch.Get "messages" -}}
+                      {{- if $existing -}}
+                        {{- $scratch.Set "messages" (append $existing $message) -}}
+                      {{- else -}}
+                        {{- $scratch.Set "messages" (slice $message) -}}
+                      {{- end -}}
+                    {{- end -}}
+                  {{- end -}}
+                {{- end -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
+      {{- $messages := $scratch.Get "messages" -}}
+      {{- if $messages -}}
+        {{- range $messages -}}
+          <div class="hextra-code-block hextra-code-block-result hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
+            {{- partial "components/codeblock" (dict "lang" $language "content" . "options" "") -}}
+            {{- if or (eq site.Params.highlight.copy.enable nil) (site.Params.highlight.copy.enable) -}}
+              {{- partialCached "components/codeblock-copy-button" (dict "filename" "") "" -}}
+            {{- end -}}
+          </div>
+        {{- end -}}
+      {{- end -}}
+    {{- else if eq (index $cell "cell_type") "markdown" -}}
+        {{- $source := index $cell "source" }}
+        {{- $sourceContent := (cond (reflect.IsSlice $source) (delimit $source "") $source) }}
+{{ (printf "\n%s\n" $sourceContent) | safeHTML }}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

@@ -14,20 +14,5 @@
       
     
     
-    <item>
-      <title>test</title>
-      <link>/notas/tipos/rijke/test/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/notas/tipos/rijke/test/</guid>
-      <description>
-        
-        
-        &lt;h1&gt;HOLA&lt;/h1&gt;&lt;p&gt;&lt;a href=&#34;/notas/tipos/rijke/dependiente/&#34;&gt;link&lt;/a&gt;
-&lt;a href=&#34;/notas/tipos/rijke/funciones-dependientes/&#34;&gt;link2&lt;/a&gt;&lt;/p&gt;
-
-      </description>
-    </item>
-    
   </channel>
 </rss>
