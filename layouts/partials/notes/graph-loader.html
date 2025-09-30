@@ -22,9 +22,9 @@
       {{- $src := . -}}
       {{- $srcID := $src.RelPermalink -}}
 
-      {{- $mdLinks := findRESubmatch `\[[^\]]+\]\((/notas[^\)#"']+)` $src.RawContent -}}
+      {{- $mdLinks := findRE `/notas[^)"'\s]+` $src.RawContent -}}
       {{- range $mdLinks -}}
-        {{- $targetPath := index . 1 -}}
+        {{- $targetPath := . -}}
         {{- with site.GetPage $targetPath -}}
           {{- if ne $srcID .RelPermalink -}}
             {{- $edgeKey := printf "%s|%s" $srcID .RelPermalink -}}
@@ -36,9 +36,9 @@
         {{- end -}}
       {{- end -}}
 
-      {{- $htmlLinks := findRESubmatch `href=\"(/notas[^"]+)\"` $src.Content -}}
+      {{- $htmlLinks := findRE `/notas[^"'\s<]+` $src.Content -}}
       {{- range $htmlLinks -}}
-        {{- $targetPath := index . 1 -}}
+        {{- $targetPath := . -}}
         {{- with site.GetPage $targetPath -}}
           {{- if ne $srcID .RelPermalink -}}
             {{- $edgeKey := printf "%s|%s" $srcID .RelPermalink -}}

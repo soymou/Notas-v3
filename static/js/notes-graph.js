@@ -164,7 +164,7 @@
 
     const graphHolder = document.createElement('div');
     graphHolder.id = 'notes-graph-viewport';
-    graphHolder.style.height = '260px';
+    graphHolder.style.height = '320px';
     graphHolder.style.width = '100%';
     graphHolder.style.position = 'relative';
     container.appendChild(graphHolder);
@@ -213,11 +213,30 @@
         return linkTouchesCurrent(link, currentId) ? 2 : 0;
       })
       .linkDirectionalParticleSpeed(0.007)
+      .d3VelocityDecay(0.25)
       .width(graphHolder.clientWidth)
       .height(graphHolder.clientHeight);
 
+    const chargeForce = graph.d3Force('charge');
+    if (chargeForce) {
+      chargeForce.strength(-180).distanceMax(600).distanceMin(60);
+    }
+
+    const linkForce = graph.d3Force('link');
+    if (linkForce) {
+      linkForce.distance(function (link) {
+        const srcId = typeof link.source === 'object' ? link.source.id : link.source;
+        const tgtId = typeof link.target === 'object' ? link.target.id : link.target;
+        const srcNode = filteredNodes.find(function (node) { return node.id === srcId; });
+        const tgtNode = filteredNodes.find(function (node) { return node.id === tgtId; });
+        const srcRadius = srcNode ? nodeRadius(srcNode) : 12;
+        const tgtRadius = tgtNode ? nodeRadius(tgtNode) : 12;
+        return 80 + srcRadius + tgtRadius;
+      });
+    }
+
     graph.nodeCanvasObject(function (node, ctx) {
-      const radius = Math.max(10, nodeRadius(node));
+      const radius = Math.max(12, nodeRadius(node));
 
       ctx.beginPath();
       ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI, false);
@@ -242,7 +261,7 @@
     });
 
     graph.nodePointerAreaPaint(function (node, color, ctx) {
-      const radius = Math.max(10, nodeRadius(node));
+      const radius = Math.max(12, nodeRadius(node));
       ctx.fillStyle = color;
       ctx.beginPath();
       ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI, false);
@@ -260,9 +279,10 @@
       graph.height(graphHolder.clientHeight);
     });
 
+    graph.cooldownTicks(220);
     setTimeout(function () {
       try {
-        graph.zoomToFit(600, focusNeighbors ? 48 : 24);
+        graph.zoomToFit(700, focusNeighbors ? 72 : 48);
       } catch (err) {
         /* noop */
       }
