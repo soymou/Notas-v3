@@ -2,22 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>//localhost:1313/notas/tipos/rijke/dependiente/</loc>
+    <loc>/notas/tipos/rijke/dependiente/</loc>
   </url><url>
-    <loc>//localhost:1313/notas/tipos/rijke/funciones-dependientes/</loc>
+    <loc>/notas/tipos/rijke/funciones-dependientes/</loc>
   </url><url>
-    <loc>//localhost:1313/about/</loc>
+    <loc>/about/</loc>
   </url><url>
-    <loc>//localhost:1313/categories/</loc>
+    <loc>/categories/</loc>
   </url><url>
-    <loc>//localhost:1313/</loc>
+    <loc>/</loc>
   </url><url>
-    <loc>//localhost:1313/notas/</loc>
+    <loc>/notas/</loc>
   </url><url>
-    <loc>//localhost:1313/notas/tipos/rijke/</loc>
+    <loc>/notas/tipos/rijke/</loc>
   </url><url>
-    <loc>//localhost:1313/tags/</loc>
+    <loc>/tags/</loc>
   </url><url>
-    <loc>//localhost:1313/notas/tipos/</loc>
+    <loc>/notas/tipos/</loc>
   </url>
 </urlset>
