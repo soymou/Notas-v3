@@ -217,7 +217,8 @@
       .linkDirectionalParticleSpeed(0.0065)
       .d3VelocityDecay(layout.velocityDecay)
       .width(graphHolder.clientWidth)
-      .height(graphHolder.clientHeight);
+      .height(graphHolder.clientHeight)
+      .enableNodeDrag(true);
 
     const chargeForce = graph.d3Force('charge');
     if (chargeForce) {
@@ -246,6 +247,21 @@
       if (node && node.url) {
         window.location.href = node.url;
       }
+    });
+
+    graph.onNodeDrag(function (node) {
+      if (!node) return;
+      node.fx = node.x;
+      node.fy = node.y;
+      if (typeof graph.d3ReheatSimulation === 'function') {
+        graph.d3ReheatSimulation();
+      }
+    });
+
+    graph.onNodeDragEnd(function (node) {
+      if (!node) return;
+      node.fx = undefined;
+      node.fy = undefined;
     });
 
     window.addEventListener('resize', function () {
