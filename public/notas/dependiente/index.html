@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="robots" content="noindex, nofollow" />
+  <link rel="icon shortcut" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" id="favicon-svg" />
+<link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+<link fetchpriority="low" href="/site.webmanifest" rel="manifest" />
+<title>Teoría de tipos dependientes – Junoy</title>
+  <meta name="description" content=" La teoría de tipos dependiente es un sistema de reglas que se puede combinar para crear derivaciones. En estas derivaciones, la meta es frecuentemente construir un elemento de un cierto tipo. Un elemento así puede ser una función si el tipo del elemento a construir es un tipo función, una demostración de una propiedad si el tipo del elemento a construir es una proposición, pero también puede ser una identificación si el tipo del elemento a construir es un tipo identidad, etc. En cierto respecto, un tipo es sólo una colección de objetos matemáticos y la construcción de elementos de un cierto tipo es la tarea o desafío matemático del día a día. El sistema de reglas de inferencia al que llamamos teoría de tipos nos da una forma de participar en esta actividad." /><link rel="canonical" href="//localhost:1313/notas/dependiente/" itemprop="url" />
+
+<meta property="og:title" content="Teoría de tipos dependientes">
+<meta
+  property="og:description"
+  content="
+    
+      
+La teoría de tipos dependiente es un sistema de reglas que se puede combinar para crear derivaciones. En
+estas derivaciones, la meta es frecuentemente construir un elemento de un cierto tipo. Un elemento así puede
+ser una función si el tipo del elemento a construir es un tipo función, una demostración de una propiedad
+si el tipo del elemento a construir es una proposición, pero también puede ser una identificación si el tipo
+del elemento a construir es un tipo identidad, etc. En cierto respecto, un tipo es sólo una colección de
+objetos matemáticos y la construcción de elementos de un cierto tipo es la tarea o desafío matemático del
+día a día. El sistema de reglas de inferencia al que llamamos teoría de tipos nos da una forma de
+participar en esta actividad.
+    
+  ">
+<meta
+  property="og:type"
+  content="
+    article
+  ">
+<meta property="og:url" content="//localhost:1313/notas/dependiente/"><meta property="article:section" content="notas">
+
+<meta
+  property="article:published_time"
+  content="2025-09-20T00:00:00+00:00">
+
+
+<meta
+  property="article:modified_time"
+  content="2025-09-20T00:00:00+00:00">
+
+
+
+  <meta itemprop="name" content="Teoría de tipos dependientes">
+  <meta itemprop="description" content="La teoría de tipos dependiente es un sistema de reglas que se puede combinar para crear derivaciones. En estas derivaciones, la meta es frecuentemente construir un elemento de un cierto tipo. Un elemento así puede ser una función si el tipo del elemento a construir es un tipo función, una demostración de una propiedad si el tipo del elemento a construir es una proposición, pero también puede ser una identificación si el tipo del elemento a construir es un tipo identidad, etc. En cierto respecto, un tipo es sólo una colección de objetos matemáticos y la construcción de elementos de un cierto tipo es la tarea o desafío matemático del día a día. El sistema de reglas de inferencia al que llamamos teoría de tipos nos da una forma de participar en esta actividad.">
+  <meta itemprop="datePublished" content="2025-09-20T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-09-20T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2697">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Teoría de tipos dependientes">
+  <meta name="twitter:description" content="La teoría de tipos dependiente es un sistema de reglas que se puede combinar para crear derivaciones. En estas derivaciones, la meta es frecuentemente construir un elemento de un cierto tipo. Un elemento así puede ser una función si el tipo del elemento a construir es un tipo función, una demostración de una propiedad si el tipo del elemento a construir es una proposición, pero también puede ser una identificación si el tipo del elemento a construir es un tipo identidad, etc. En cierto respecto, un tipo es sólo una colección de objetos matemáticos y la construcción de elementos de un cierto tipo es la tarea o desafío matemático del día a día. El sistema de reglas de inferencia al que llamamos teoría de tipos nos da una forma de participar en esta actividad.">
+<link href="/css/compiled/main.css" rel="stylesheet" />
+    <link href="/css/variables.css" rel="stylesheet" />
+    <link href="/css/custom.css" rel="stylesheet" />
+
+  
+
+
+  <script>
+    
+
+    function setTheme(theme) {
+      document.documentElement.classList.remove("light", "dark");
+
+      if (theme !== "light" && theme !== "dark") {
+       theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+
+      document.documentElement.classList.add(theme);
+      document.documentElement.style.colorScheme = theme;
+    }
+
+    setTheme("color-theme" in localStorage ? localStorage.getItem("color-theme") : 'system')
+
+  </script>
+
+  <script>
+    
+
+    if (localStorage.getItem('banner-closed')) {
+      document.documentElement.style.setProperty("--hextra-banner-height", "0px");
+      document.documentElement.classList.add("hextra-banner-hidden");
+    }
+  </script>
+
+  
+  
+  </head>
+<body><div class="hextra-nav-container hx:sticky hx:top-0 hx:z-20 hx:w-full hx:bg-transparent hx:print:hidden">
+  <div
+    class="hextra-nav-container-blur hx:pointer-events-none hx:absolute hx:z-[-1] hx:h-full hx:w-full hx:bg-white hx:dark:bg-dark hx:shadow-[0_2px_4px_rgba(0,0,0,.02),0_1px_0_rgba(0,0,0,.06)] hx:contrast-more:shadow-[0_0_0_1px_#000] hx:dark:shadow-[0_-1px_0_rgba(255,255,255,.1)_inset] hx:contrast-more:dark:shadow-[0_0_0_1px_#fff]"
+  ></div>
+
+  <nav class="hextra-max-navbar-width hx:mx-auto hx:flex hx:items-center hx:justify-end hx:gap-2 hx:h-16 hx:px-6">
+    <a class="hx:flex hx:items-center hx:hover:opacity-75 hx:ltr:mr-auto hx:rtl:ml-auto" href="/">
+    <span class="hx:mr-2 hx:font-extrabold hx:inline hx:select-none" title="Junoy">Junoy</span>
+</a>
+<a
+  title=""
+  href="/notas"
+  
+  class="hx:text-sm hx:contrast-more:text-gray-700 hx:contrast-more:dark:text-gray-100 hx:relative hx:-ml-2 hx:hidden hx:whitespace-nowrap hx:p-2 hx:md:inline-flex hx:items-center hx:gap-1 hx:font-medium"
+><span class="hx:text-center">Notas</span>
+</a><a
+  title=""
+  href="/about"
+  
+  class="hx:text-sm hx:contrast-more:text-gray-700 hx:contrast-more:dark:text-gray-100 hx:relative hx:-ml-2 hx:hidden hx:whitespace-nowrap hx:p-2 hx:md:inline-flex hx:items-center hx:gap-1 hx:text-gray-600 hx:hover:text-gray-800 hx:dark:text-gray-400 hx:dark:hover:text-gray-200"
+><span class="hx:text-center">Yo</span>
+</a><div class="hextra-search-wrapper hx:relative hx:md:w-64">
+  <div class="hx:relative hx:flex hx:items-center hx:text-gray-900 hx:contrast-more:text-gray-800 hx:dark:text-gray-300 hx:contrast-more:dark:text-gray-300">
+    <input
+      placeholder="Search..."
+      class="hextra-search-input hx:focus:hextra-focus hx:block hx:w-full hx:appearance-none hx:rounded-lg hx:px-3 hx:py-2 hx:transition-colors hx:text-base hx:leading-tight hx:md:text-sm hx:bg-black/[.05] hx:dark:bg-gray-50/10 hx:focus:bg-white hx:dark:focus:bg-dark hx:placeholder:text-gray-500 hx:dark:placeholder:text-gray-400 hx:contrast-more:border hx:contrast-more:border-current"
+      type="search"
+      value=""
+      spellcheck="false"
+    />
+    <kbd
+      class="hx:absolute hx:my-1.5 hx:select-none hx:ltr:right-1.5 hx:rtl:left-1.5 hx:h-5 hx:rounded-sm hx:bg-white hx:px-1.5 hx:font-mono hx:text-[10px] hx:font-medium hx:text-gray-500 hx:border hx:border-gray-200 hx:dark:border-gray-100/20 hx:dark:bg-dark/50 hx:contrast-more:border-current hx:contrast-more:text-current hx:contrast-more:dark:border-current hx:items-center hx:gap-1 hx:transition-opacity hx:pointer-events-none hx:hidden hx:sm:flex"
+    >
+      CTRL K
+    </kbd>
+  </div>
+
+  <div>
+    <ul
+      class="hextra-search-results hextra-scrollbar hx:hidden hx:border hx:border-gray-200 hx:bg-white hx:text-gray-100 hx:dark:border-neutral-800 hx:dark:bg-neutral-900 hx:absolute hx:top-full hx:z-20 hx:mt-2 hx:overflow-auto hx:overscroll-contain hx:rounded-xl hx:py-2.5 hx:shadow-xl hx:max-h-[min(calc(50vh-11rem-env(safe-area-inset-bottom)),400px)] hx:md:max-h-[min(calc(100vh-5rem-env(safe-area-inset-bottom)),400px)] hx:inset-x-0 hx:ltr:md:left-auto hx:rtl:md:right-auto hx:contrast-more:border hx:contrast-more:border-gray-900 hx:contrast-more:dark:border-gray-50 hx:w-screen hx:min-h-[100px] hx:max-w-[min(calc(100vw-2rem),calc(100%+20rem))]"
+      style="transition: max-height 0.2s ease 0s;"
+    ></ul>
+  </div>
+</div>
+
+          <a class="hx:p-2 hx:text-current" target="_blank" rel="noreferrer" href="https://github.com/soymou" title="GitHub"><svg height=24 fill="currentColor" viewBox="3 3 18 18">
+  <path d="M12 3C7.0275 3 3 7.12937 3 12.2276C3 16.3109 5.57625 19.7597 9.15374 20.9824C9.60374 21.0631 9.77249 20.7863 9.77249 20.5441C9.77249 20.3249 9.76125 19.5982 9.76125 18.8254C7.5 19.2522 6.915 18.2602 6.735 17.7412C6.63375 17.4759 6.19499 16.6569 5.8125 16.4378C5.4975 16.2647 5.0475 15.838 5.80124 15.8264C6.51 15.8149 7.01625 16.4954 7.18499 16.7723C7.99499 18.1679 9.28875 17.7758 9.80625 17.5335C9.885 16.9337 10.1212 16.53 10.38 16.2993C8.3775 16.0687 6.285 15.2728 6.285 11.7432C6.285 10.7397 6.63375 9.9092 7.20749 9.26326C7.1175 9.03257 6.8025 8.08674 7.2975 6.81794C7.2975 6.81794 8.05125 6.57571 9.77249 7.76377C10.4925 7.55615 11.2575 7.45234 12.0225 7.45234C12.7875 7.45234 13.5525 7.55615 14.2725 7.76377C15.9937 6.56418 16.7475 6.81794 16.7475 6.81794C17.2424 8.08674 16.9275 9.03257 16.8375 9.26326C17.4113 9.9092 17.76 10.7281 17.76 11.7432C17.76 15.2843 15.6563 16.0687 13.6537 16.2993C13.98 16.5877 14.2613 17.1414 14.2613 18.0065C14.2613 19.2407 14.25 20.2326 14.25 20.5441C14.25 20.7863 14.4188 21.0746 14.8688 20.9824C16.6554 20.364 18.2079 19.1866 19.3078 17.6162C20.4077 16.0457 20.9995 14.1611 21 12.2276C21 7.12937 16.9725 3 12 3Z"></path>
+</svg>
+<span class="hx:sr-only">GitHub</span>
+          </a><button type="button" aria-label="Menu" class="hextra-hamburger-menu hx:cursor-pointer hx:-mr-2 hx:rounded-sm hx:p-2 hx:active:bg-gray-400/20 hx:md:hidden"><svg height=24 fill="none" viewBox="0 0 24 24" stroke="currentColor"><g><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8H20"></path></g><g><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16H20"></path></g></svg></button>
+  </nav>
+</div>
+
+  <div class='hx:mx-auto hx:flex hextra-max-page-width'>
+    <aside class="hextra-sidebar-container hx:flex hx:flex-col hx:print:hidden hx:md:top-16 hx:md:shrink-0 hx:md:w-64 hx:md:self-start hx:max-md:[transform:translate3d(0,-100%,0)] hx:md:hidden hx:xl:block">
+  
+  <div class="hx:px-4 hx:pt-4 hx:md:hidden">
+    <div class="hextra-search-wrapper hx:relative hx:md:w-64">
+  <div class="hx:relative hx:flex hx:items-center hx:text-gray-900 hx:contrast-more:text-gray-800 hx:dark:text-gray-300 hx:contrast-more:dark:text-gray-300">
+    <input
+      placeholder="Search..."
+      class="hextra-search-input hx:focus:hextra-focus hx:block hx:w-full hx:appearance-none hx:rounded-lg hx:px-3 hx:py-2 hx:transition-colors hx:text-base hx:leading-tight hx:md:text-sm hx:bg-black/[.05] hx:dark:bg-gray-50/10 hx:focus:bg-white hx:dark:focus:bg-dark hx:placeholder:text-gray-500 hx:dark:placeholder:text-gray-400 hx:contrast-more:border hx:contrast-more:border-current"
+      type="search"
+      value=""
+      spellcheck="false"
+    />
+    <kbd
+      class="hx:absolute hx:my-1.5 hx:select-none hx:ltr:right-1.5 hx:rtl:left-1.5 hx:h-5 hx:rounded-sm hx:bg-white hx:px-1.5 hx:font-mono hx:text-[10px] hx:font-medium hx:text-gray-500 hx:border hx:border-gray-200 hx:dark:border-gray-100/20 hx:dark:bg-dark/50 hx:contrast-more:border-current hx:contrast-more:text-current hx:contrast-more:dark:border-current hx:items-center hx:gap-1 hx:transition-opacity hx:pointer-events-none hx:hidden hx:sm:flex"
+    >
+      CTRL K
+    </kbd>
+  </div>
+
+  <div>
+    <ul
+      class="hextra-search-results hextra-scrollbar hx:hidden hx:border hx:border-gray-200 hx:bg-white hx:text-gray-100 hx:dark:border-neutral-800 hx:dark:bg-neutral-900 hx:absolute hx:top-full hx:z-20 hx:mt-2 hx:overflow-auto hx:overscroll-contain hx:rounded-xl hx:py-2.5 hx:shadow-xl hx:max-h-[min(calc(50vh-11rem-env(safe-area-inset-bottom)),400px)] hx:md:max-h-[min(calc(100vh-5rem-env(safe-area-inset-bottom)),400px)] hx:inset-x-0 hx:ltr:md:left-auto hx:rtl:md:right-auto hx:contrast-more:border hx:contrast-more:border-gray-900 hx:contrast-more:dark:border-gray-50 hx:w-screen hx:min-h-[100px] hx:max-w-[min(calc(100vw-2rem),calc(100%+20rem))]"
+      style="transition: max-height 0.2s ease 0s;"
+    ></ul>
+  </div>
+</div>
+
+  </div>
+  <div class="hextra-scrollbar hx:overflow-y-auto hx:overflow-x-hidden hx:p-4 hx:grow hx:md:h-[calc(100vh-var(--navbar-height)-var(--menu-height))]">
+    <ul class="hx:flex hx:flex-col hx:gap-1 hx:md:hidden">
+      
+      
+          <li class="open"><a
+    class="hx:flex hx:items-center hx:justify-between hx:gap-2 hx:cursor-pointer hx:rounded-sm hx:px-2 hx:py-1.5 hx:text-sm hx:transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      hx:text-gray-500 hx:hover:bg-gray-100 hx:hover:text-gray-900 hx:contrast-more:border hx:contrast-more:border-transparent hx:contrast-more:text-gray-900 hx:contrast-more:hover:border-gray-900 hx:dark:text-neutral-400 hx:dark:hover:bg-primary-100/5 hx:dark:hover:text-gray-50 hx:contrast-more:dark:text-gray-50 hx:contrast-more:dark:hover:border-gray-50"
+    href="/notas/"
+    
+  >Notas
+        <span class="hextra-sidebar-collapsible-button"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="hx:h-[18px] hx:min-w-[18px] hx:rounded-xs hx:p-0.5 hx:hover:bg-gray-800/5 hx:dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="hx:origin-center hx:transition-transform hx:rtl:-rotate-180"></path></svg></span>
+    </a><div class="hx:ltr:pr-0 hx:overflow-hidden">
+        <ul class='hx:relative hx:flex hx:flex-col hx:gap-1 hx:before:absolute hx:before:inset-y-1 hx:before:w-px hx:before:bg-gray-200 hx:before:content-[""] hx:ltr:ml-3 hx:ltr:pl-3 hx:ltr:before:left-0 hx:rtl:mr-3 hx:rtl:pr-3 hx:rtl:before:right-0 hx:dark:before:bg-neutral-800'><li class="hx:flex hx:flex-col open"><a
+    class="hx:flex hx:items-center hx:justify-between hx:gap-2 hx:cursor-pointer hx:rounded-sm hx:px-2 hx:py-1.5 hx:text-sm hx:transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      hextra-sidebar-active-item hx:bg-primary-100 hx:font-semibold hx:text-primary-800 hx:contrast-more:border hx:contrast-more:border-primary-500 hx:dark:bg-primary-400/10 hx:dark:text-primary-600 hx:contrast-more:dark:border-primary-500"
+    href="/notas/dependiente/"
+    
+  >Teoría de tipos dependientes
+    </a>
+  
+              
+            </li><li class="hx:flex hx:flex-col open"><a
+    class="hx:flex hx:items-center hx:justify-between hx:gap-2 hx:cursor-pointer hx:rounded-sm hx:px-2 hx:py-1.5 hx:text-sm hx:transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      hx:text-gray-500 hx:hover:bg-gray-100 hx:hover:text-gray-900 hx:contrast-more:border hx:contrast-more:border-transparent hx:contrast-more:text-gray-900 hx:contrast-more:hover:border-gray-900 hx:dark:text-neutral-400 hx:dark:hover:bg-primary-100/5 hx:dark:hover:text-gray-50 hx:contrast-more:dark:text-gray-50 hx:contrast-more:dark:hover:border-gray-50"
+    href="/notas/tipos/"
+    
+  >Tipos
+        <span class="hextra-sidebar-collapsible-button"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="hx:h-[18px] hx:min-w-[18px] hx:rounded-xs hx:p-0.5 hx:hover:bg-gray-800/5 hx:dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="hx:origin-center hx:transition-transform hx:rtl:-rotate-180"></path></svg></span>
+    </a>
+              <div class="hx:ltr:pr-0 hx:overflow-hidden">
+        <ul class='hx:relative hx:flex hx:flex-col hx:gap-1 hx:before:absolute hx:before:inset-y-1 hx:before:w-px hx:before:bg-gray-200 hx:before:content-[""] hx:ltr:ml-3 hx:ltr:pl-3 hx:ltr:before:left-0 hx:rtl:mr-3 hx:rtl:pr-3 hx:rtl:before:right-0 hx:dark:before:bg-neutral-800'><li class="hx:flex hx:flex-col open"><a
+    class="hx:flex hx:items-center hx:justify-between hx:gap-2 hx:cursor-pointer hx:rounded-sm hx:px-2 hx:py-1.5 hx:text-sm hx:transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      hx:text-gray-500 hx:hover:bg-gray-100 hx:hover:text-gray-900 hx:contrast-more:border hx:contrast-more:border-transparent hx:contrast-more:text-gray-900 hx:contrast-more:hover:border-gray-900 hx:dark:text-neutral-400 hx:dark:hover:bg-primary-100/5 hx:dark:hover:text-gray-50 hx:contrast-more:dark:text-gray-50 hx:contrast-more:dark:hover:border-gray-50"
+    href="/notas/tipos/rijke/"
+    
+  >Rijke
+        <span class="hextra-sidebar-collapsible-button"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="hx:h-[18px] hx:min-w-[18px] hx:rounded-xs hx:p-0.5 hx:hover:bg-gray-800/5 hx:dark:hover:bg-gray-100/5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" class="hx:origin-center hx:transition-transform hx:rtl:-rotate-180"></path></svg></span>
+    </a>
+              <div class="hx:ltr:pr-0 hx:overflow-hidden">
+        <ul class='hx:relative hx:flex hx:flex-col hx:gap-1 hx:before:absolute hx:before:inset-y-1 hx:before:w-px hx:before:bg-gray-200 hx:before:content-[""] hx:ltr:ml-3 hx:ltr:pl-3 hx:ltr:before:left-0 hx:rtl:mr-3 hx:rtl:pr-3 hx:rtl:before:right-0 hx:dark:before:bg-neutral-800'><li class="hx:flex hx:flex-col "><a
+    class="hx:flex hx:items-center hx:justify-between hx:gap-2 hx:cursor-pointer hx:rounded-sm hx:px-2 hx:py-1.5 hx:text-sm hx:transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      hx:text-gray-500 hx:hover:bg-gray-100 hx:hover:text-gray-900 hx:contrast-more:border hx:contrast-more:border-transparent hx:contrast-more:text-gray-900 hx:contrast-more:hover:border-gray-900 hx:dark:text-neutral-400 hx:dark:hover:bg-primary-100/5 hx:dark:hover:text-gray-50 hx:contrast-more:dark:text-gray-50 hx:contrast-more:dark:hover:border-gray-50"
+    href="/notas/tipos/rijke/dependiente/"
+    
+  >Teoría de tipos dependiente
+    </a>
+              
+            </li><li class="hx:flex hx:flex-col "><a
+    class="hx:flex hx:items-center hx:justify-between hx:gap-2 hx:cursor-pointer hx:rounded-sm hx:px-2 hx:py-1.5 hx:text-sm hx:transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      hx:text-gray-500 hx:hover:bg-gray-100 hx:hover:text-gray-900 hx:contrast-more:border hx:contrast-more:border-transparent hx:contrast-more:text-gray-900 hx:contrast-more:hover:border-gray-900 hx:dark:text-neutral-400 hx:dark:hover:bg-primary-100/5 hx:dark:hover:text-gray-50 hx:contrast-more:dark:text-gray-50 hx:contrast-more:dark:hover:border-gray-50"
+    href="/notas/tipos/rijke/funciones-dependientes/"
+    
+  >Funciones dependientes
+    </a>
+              
+            </li></ul>
+      </div>
+            </li></ul>
+      </div>
+            </li></ul>
+      </div></li>
+          <li class=""><a
+    class="hx:flex hx:items-center hx:justify-between hx:gap-2 hx:cursor-pointer hx:rounded-sm hx:px-2 hx:py-1.5 hx:text-sm hx:transition-colors [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] [word-break:break-word]
+      hx:text-gray-500 hx:hover:bg-gray-100 hx:hover:text-gray-900 hx:contrast-more:border hx:contrast-more:border-transparent hx:contrast-more:text-gray-900 hx:contrast-more:hover:border-gray-900 hx:dark:text-neutral-400 hx:dark:hover:bg-primary-100/5 hx:dark:hover:text-gray-50 hx:contrast-more:dark:text-gray-50 hx:contrast-more:dark:hover:border-gray-50"
+    href="/about/"
+    
+  >¿Quién soy?
+    </a></li>
+    </ul>
+
+    <div class="hx:max-xl:hidden hx:h-0 hx:w-64 hx:shrink-0"></div></div>
+  
+  
+    <div class="hx:md:hidden  hx:sticky hx:bottom-0 hx:max-h-(--menu-height) hx:bg-white hx:dark:bg-dark hx:mx-4 hx:py-4 hx:shadow-[0_-12px_16px_#fff] hx:flex hx:items-center hx:gap-2 hx:border-gray-200 hx:dark:border-neutral-800 hx:dark:shadow-[0_-12px_16px_#111] hx:contrast-more:border-neutral-400 hx:contrast-more:shadow-none hx:contrast-more:dark:shadow-none hx:border-t" data-toggle-animation="show"><div class="hx:flex hx:grow hx:flex-col"><div class="hx:flex hx:justify-items-start hx:group" data-theme="light">
+  <button
+    title="Change theme"
+    data-state="closed"
+    data-location="bottom"
+    class="hextra-theme-toggle hx:cursor-pointer hx:rounded-md hx:text-left hx:font-medium hx:h-7 hx:px-2 hx:text-xs hx:hover:bg-gray-100 hx:hover:text-gray-900 hx:dark:hover:bg-primary-100/5 hx:dark:hover:text-gray-50 hx:font-medium hx:text-gray-600 hx:transition-colors hx:dark:text-gray-400 hx:grow"
+    type="button"
+    aria-label="Change theme"
+  >
+    <div class="hx:flex hx:items-center hx:gap-2 hx:capitalize"><svg height=12 class="hx:group-data-[theme=dark]:hidden hx:group-data-[theme=system]:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="hx:group-data-[theme=dark]:hidden hx:group-data-[theme=system]:hidden">Light</span><svg height=12 class="hx:group-data-[theme=light]:hidden hx:group-data-[theme=system]:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg><span class="hx:group-data-[theme=light]:hidden hx:group-data-[theme=system]:hidden">Dark</span><svg height=12 class="hx:group-data-[theme=dark]:hidden hx:group-data-[theme=light]:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  fill="currentColor">
+  <path d="M 11.996094,2 C 6.4986225,2.0192368 2.03125,6.5024993 2.03125,12 c 0,5.497501 4.4673725,9.980763 9.964844,10 H 12 12.0039 c 5.497471,-0.01924 9.964844,-4.502499 9.964844,-10 0,-5.4975007 -4.467373,-9.9807632 -9.964844,-10 H 12 Z M 12,4 c 4.417218,0.017598 7.96875,3.5822356 7.96875,8 0,4.417764 -3.551532,7.982402 -7.96875,8 z" />
+</svg>
+<span class="hx:group-data-[theme=dark]:hidden hx:group-data-[theme=light]:hidden">System</span></div>
+  </button>
+  <ul
+    class="hextra-theme-toggle-options hx:hidden hx:z-20 hx:max-h-64 hx:overflow-auto hx:rounded-md hx:ring-1 hx:ring-black/5 hx:bg-white hx:py-1 hx:text-sm hx:shadow-lg hx:dark:ring-white/20 hx:dark:bg-neutral-800"
+    style="position: fixed; inset: auto auto 0px 0px; margin: 0px; min-width: 100px;"
+    data-theme="light"
+  >
+    <li class="hx:flex hx:flex-col">
+      <p
+        data-item="light"
+        class="hx:text-gray-800 hx:dark:text-gray-100 hx:hover:bg-primary-50 hx:hover:text-primary-600 hx:hover:dark:bg-primary-500/10 hx:hover:dark:text-primary-600 hx:relative hx:cursor-pointer hx:whitespace-nowrap hx:py-1.5 hx:transition-colors hx:ltr:pl-3 hx:ltr:pr-9 hx:rtl:pr-3 hx:rtl:pl-9"
+      >
+        Light
+         <span class="hx:absolute hx:inset-y-0 hx:flex hx:items-center hx:ltr:right-3 hx:rtl:left-3 hx:group-data-[theme=dark]:hidden hx:group-data-[theme=system]:hidden"><svg height=1em width=1em xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+      </p>
+    </li>
+    <li class="hx:flex hx:flex-col">
+      <p
+        data-item="dark"
+        class="hx:text-gray-800 hx:dark:text-gray-100 hx:hover:bg-primary-50 hx:hover:text-primary-600 hx:hover:dark:bg-primary-500/10 hx:hover:dark:text-primary-600 hx:relative hx:cursor-pointer hx:whitespace-nowrap hx:py-1.5 hx:transition-colors hx:ltr:pl-3 hx:ltr:pr-9 hx:rtl:pr-3 hx:rtl:pl-9"
+      >
+        Dark
+         <span class="hx:absolute hx:inset-y-0 hx:flex hx:items-center hx:ltr:right-3 hx:rtl:left-3 hx:group-data-[theme=light]:hidden hx:group-data-[theme=system]:hidden"><svg height=1em width=1em xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+      </p>
+    </li>
+    <li class="hx:flex hx:flex-col">
+      <p
+        data-item="system"
+        class="hx:text-gray-800 hx:dark:text-gray-100 hx:hover:bg-primary-50 hx:hover:text-primary-600 hx:hover:dark:bg-primary-500/10 hx:hover:dark:text-primary-600 hx:relative hx:cursor-pointer hx:whitespace-nowrap hx:py-1.5 hx:transition-colors hx:ltr:pl-3 hx:ltr:pr-9 hx:rtl:pr-3 hx:rtl:pl-9"
+      >
+        System
+         <span class="hx:absolute hx:inset-y-0 hx:flex hx:items-center hx:ltr:right-3 hx:rtl:left-3 hx:group-data-[theme=dark]:hidden hx:group-data-[theme=light]:hidden"><svg height=1em width=1em xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+      </p>
+    </li>
+  </ul>
+</div></div></div></aside>
+    
+<nav class="hextra-toc hx:order-last hx:hidden hx:w-64 hx:shrink-0 hx:xl:block hx:print:hidden hx:px-4" aria-label="table of contents">
+    <div class="hextra-scrollbar hx:sticky hx:top-16 hx:overflow-y-auto hx:pr-4 hx:pt-6 hx:text-sm [hyphens:auto] hx:max-h-[calc(100vh-var(--navbar-height)-env(safe-area-inset-bottom))] hx:ltr:-mr-4 hx:rtl:-ml-4">
+      <div class=" hx:sticky hx:bottom-0 hx:flex hx:flex-col hx:items-start hx:gap-2 hx:pb-8 hx:border-gray-200 hx:dark:border-neutral-800 hx:contrast-more:border-t hx:contrast-more:border-neutral-400 hx:contrast-more:shadow-none hx:contrast-more:dark:border-neutral-400">
+        <button aria-hidden="true" id="backToTop" onClick="scrollUp();" class="hx:cursor-pointer hx:transition-all hx:duration-75 hx:opacity-0 hx:text-xs hx:font-medium hx:text-gray-500 hx:hover:text-gray-900 hx:dark:text-gray-400 hx:dark:hover:text-gray-100 hx:contrast-more:text-gray-800 hx:contrast-more:dark:text-gray-50">
+          <span>Scroll to top</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="hx:inline hx:ltr:ml-1 hx:rtl:mr-1 hx:h-3.5 hx:w-3.5 hx:rounded-full hx:border hx:border-gray-500 hx:hover:border-gray-900 hx:dark:border-gray-400 hx:dark:hover:border-gray-100 hx:contrast-more:border-gray-800 hx:contrast-more:dark:border-gray-50">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+
+    <article class="hx:w-full hx:break-words hx:flex hx:min-h-[calc(100vh-var(--navbar-height))] hx:min-w-0 hx:justify-center hx:pb-8 hx:pr-[calc(env(safe-area-inset-right)-1.5rem)]">
+      <main class="hx:w-full hx:min-w-0 hx:max-w-6xl hx:px-6 hx:pt-4 hx:md:px-12">
+        
+        <br class="hx:mt-1.5 hx:text-sm" />
+        <h1 class="hx:text-center hx:mt-2 hx:text-4xl hx:font-bold hx:tracking-tight hx:text-slate-900 hx:dark:text-slate-100">Teoría de tipos dependientes</h1>
+        <div class="hx:mb-16"></div>
+        <div class="content">
+          
+<p>
+La teoría de tipos dependiente es un sistema de reglas que se puede combinar para crear <strong>derivaciones</strong>. En
+estas derivaciones, la meta es frecuentemente construir un elemento de un cierto tipo. Un elemento así puede
+ser una función si el tipo del elemento a construir es un tipo función, una demostración de una propiedad
+si el tipo del elemento a construir es una proposición, pero también puede ser una identificación si el tipo
+del elemento a construir es un tipo identidad, etc. En cierto respecto, un tipo es sólo una colección de
+objetos matemáticos y la construcción de elementos de un cierto tipo es la tarea o desafío matemático del
+día a día. El sistema de reglas de inferencia al que llamamos teoría de tipos nos da una forma de
+participar en esta actividad.</p>
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+Juicios y contextos en la teoría de tipos
+</h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<p>Un argumento matemático o construcción cosiste de una secuencia de pasos deductivos, cada uno con una
+cantidad finita de premisas para llegar a la siguiente etapa de la demostración o construcción. Estos
+pasos se pueden representar mediante <strong>reglas de inferencia</strong>, que se escriben de la siguiente forma:
+\[
+        \frac{\mathcal{H}_1 ~~~ \mathcal{H}_2 ~~~ \ldots ~~~ \mathcal{H}_n}{\mathcal{C}}.
+\]
+Las reglas de inferencia contienen, arriba de la línea horizontal, una lista finita \(\mathcal{H}_1,
+\mathcal{H}_2, \ldots, \mathcal{H}_n\)
+de juicios como las <strong>premisas</strong> y, debajo de la misa línea, un único juicio \(\mathcal{C}\) como la <strong>conclusión</strong>. El sistema
+de la teoría de tipos dependiente es un conjunto de este tipo de reglas de inferencia.</p>
+<p>
+Un ejemplo directo de una regla de inferencia con la que nos vamos a encontrar cuando introduzcamos los tipos
+función, es la regla de inferencia
+\[
+        \frac{\Gamma \vdash a: A ~~~ \Gamma \vdash f: A \to B}{\Gamma \vdash f(a): B}.
+\]
+Esta regla asegura que bajo cualquier contexto \(\Gamma\) podemos usar un elemento \(a: A\) y una función
+\(f: A \to B\) para obtener un elemento \(f(a): B\). Cada una de las expresiones</p>
+<ul>
+<li>\(\Gamma \vdash a: A\)</li>
+<li>\(\Gamma \vdash f: A \to B\)</li>
+<li>\(\Gamma \vdash f(a): B\)</li>
+</ul>
+<p>son ejemplos de juicios.</p>
+<div id="outline-container-definicion-1-1-1" class="outline-3">
+<h3 id="definicion-1-1-1">
+Definición 1.1.1
+</h3>
+<div id="outline-text-definicion-1-1-1" class="outline-text-3">
+<p>Hay cuatro tipos de <strong>juicios</strong> en la teoría de tipos dependiente de Martin-Löf:</p>
+<ol>
+<li>\(A\) es un <strong>tipo</strong> (bien formado) en el contexto \(\Gamma\). Expresamos este juicio como \[ \Gamma \vdash A ~~~ \text{type} \].</li>
+<li>\(A\) y \(B\) son <strong>tipos juiciosamente iguales</strong> en el contexto \(\Gamma\). Expresamos este juicio como
+\[ \Gamma \vdash A \stackrel{\cdot}{=} B ~~~ \text{type}\].</li>
+<li>\(a\) es un <strong>elemento</strong> de tipo \(A\) en el contexto \(\Gamma\). Expresamos este juicio como
+\[ \Gamma \vdash a: A \].</li>
+<li>\(a\) y \(b\) son <strong>elementos juiciosamente iguales</strong> del tipo \(A\) en el contexto \(\Gamma\). Expresamos este
+juicio como \[ \Gamma \vdash a \stackrel{\cdot}{=} b: A \].</li>
+</ol>
+<p>Vemos que todos los juicios son de la forma \(\Gamma \vdash \mathcal{J}\), consistiendo de un contexto \(\Gamma\)
+y una tesis de juicio \(\mathcal{J}\) que asegura ya sea que \(A\) es un tipo, que \(A\) y \(B\) son tipos
+iguales, que \(a\) es un elemento del tipo \(A\) o que \(a\) y \(b\) son elementos iguales del mismo tipo
+\(A\). El rol del contexto es declara qué <strong>elementos hipotéticos</strong> son asumidos, junto con sus tipos.
+Los elementos hipotéticos son comúnmente llamados <strong>variables</strong>.</p>
+</div>
+</div>
+<div id="outline-container-definicion-1-1-2" class="outline-3">
+<h3 id="definicion-1-1-2">
+Definición 1.1.2
+</h3>
+<div id="outline-text-definicion-1-1-2" class="outline-text-3">
+<p>Un <strong>contexto</strong> es una lista finita de <strong>declaraciones de variables</strong>
+\[\tag{1.1.1}\label{eq:lista-contexto}
+  x_1: A_1, x_2: A_2(x_1), \ldots, x_n: A_n(x_1, \ldots, x_{n-1})
+\]
+que satisfacen la condición de que para cada \(1 \leq k \leq n\) podemos derivar el juicio
+\[ x_1: A_1, \ldots, x_{k-1}: A_{k-1}(x_1, \ldots, x_{k-2}) \vdash A_k (x_1, \ldots, x_{k-1} ~~~ \text{type})\]
+usando las reglas de inferencia de la teoría de tipos. Podemos usar nombres de variables que no sean
+\(x_1, \ldots, x_n\) siempre que no declaremos una misma variable más de una vez.</p>
+<p>
+La condición de la Definición <a href="#definicion-1-1-2">1.1.2</a> de que cada uno de los elementos hipotéticos tiene asignado un tipo,
+es verificado recursivamente. En otras palabras, para verificar que una declaración de variables como
+en la ecuación \eqref{eq:lista-contexto} es un contexto, uno empieza por la izquierda y se va
+trabajando hacia la derecha, verificando que cada elemento hipotético \(x_k\) tenga un tipo asignado.</p>
+<p>
+Notemos que hay un contexto de longitud 0, el <strong>contexto vacío</strong>, en el que no se declara ninguna variable.
+Este contexto satisface la definición <a href="#definicion-1-1-2">1.1.2</a> por vacuidad. Una lista de declaraciones de variables
+\(x_1: A_1\) es un contexto si y sólo si \(A_1\) es un tipo en el contexto vacío.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-2">
+<h2 id="headline-4">
+Familias de tipos
+</h2>
+<div id="outline-text-headline-4" class="outline-text-2">
+<p>Una característica de la teoría de tipos dependiente es que todos los juicios dependen del contexto e
+incluso los tipos de las variables en un contexto pueden depender de otras variables ya declaradas.
+Por ejemplo, si \(n\) es un número natural y sabemos del contexto que \(n\) es primo, entonces no tenemos
+suficiente información para afirmar que \(n\) es impar. Sin embargo, si sabemos del contexto que \(n + 2\)
+es primo, entonces podemos derivar del contexto que \(n\) debe ser impar.</p>
+<div id="outline-container-headline-5" class="outline-3">
+<h3 id="headline-5">
+Definición 1.2.1
+</h3>
+<div id="outline-text-headline-5" class="outline-text-3">
+<p>Consideremos un tipo \(A\) en un contexto \(\Gamma\). Una <strong>familia</strong> de tipos sobre \(A\) en un contexto \(\Gamma\) es un tipo
+\(B(x)\) en el contexto \(\Gamma, x: A\). En otras palabras, en la situación en la que
+\[ \Gamma, x: A \vdash B(x) ~~~ \text{type} \],
+decimos que \(B\) es una familia de tipos sobre \(A\) en el contexto \(\Gamma\). Alternativamente, decimos que
+\(B(x)\) es un tipo <strong>indizado</strong> por \(x: A\), en el contexto \(\Gamma\).</p>
+<p>
+Pensamos en una familia de tipos \(B\) sobre \(A\) en un contexto \(\Gamma\) como un tipo \(B(x)\) que varía a lo largo
+de \(x: A\). Un ejemplo básico de una familia de tipos ocurre cuando introducimos los <strong>tipos identidad</strong>.
+Se introducen como sigue:
+\[
+        \frac{\Gamma \vdash a: A}{\Gamma, x: A \vdash a = x ~~~ \text{type}}
+\]
+Esta regla afirma que dado un elemento \(a: A\) en el contexto \(\Gamma\), podemos formar el tipo \(a = x\) en el
+contexto \(\Gamma, x: A\). El tipo \(a = x\) en el contexto \(\Gamma, x: A\) es un ejemplo de familia de tipos sobre \(A\)
+en un contexto \(\Gamma\).</p>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-3">
+<h3 id="headline-6">
+Definición 1.2.2
+</h3>
+<div id="outline-text-headline-6" class="outline-text-3">
+<p>Consideremos una familia de tipos \(B\) sobre \(A\) en un contexto \(\Gamma\). Una <strong>sección</strong> de la familia \(B\) sobre \(A\)
+en el contexto \(\Gamma\) es un elemento de tipo \(B(x)\) en el contexto \(\Gamma, x: A\), i.e., en el juicio
+\[
+        \Gamma, x: A \vdash b(x): B(x)
+\]
+decimos que \(b\) es una sección de la familia \(B\) sobre \(A\) en el contexto \(\Gamma\). Alternativamente, decimos que
+\(b(x)\) es un elemento de tipo \(B(x)\) indizado por \(x: A\) en el contexto \(\Gamma\).</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-7" class="outline-2">
+<h2 id="headline-7">
+Reglas de inferencia
+</h2>
+<div id="outline-text-headline-7" class="outline-text-2">
+<p>Ahora estamos listos para presentar el sistema de reglas de inferencia que subyace a la teoría de tipos
+dependiente. Estas son conocidas como <strong>reglas estructurales</strong> de la teoría de tipos, pues establecen la
+estructura matemática para la dependencia de tipos. Hay seis conjuntos de reglas de inferencia:</p>
+<ol>
+<li>Reglas sobre la formación de contextos, tipos y sus elementos.</li>
+<li>Reglas que postulan que la igualdad juiciosa es una relación de equivalencia.</li>
+<li>Reglas de conversión de variables.</li>
+<li>Reglas de substitución.</li>
+<li>Reglas de debilitamiento.</li>
+<li>El elemento genérico.</li>
+</ol>
+<div id="outline-container-headline-8" class="outline-3">
+<h3 id="headline-8">
+Reglas sobre la formación de contextos, tipos y sus elementos
+</h3>
+<div id="outline-text-headline-8" class="outline-text-3">
+<p>En la definición de contextos, tipos y elementos bien formados, especificamos que para que un tipo
+\(B(x)\) esté bien formado en un contexto \(\Gamma, x: A\), debe suceder que \(A\) sea un tipo bien formado en el
+contexto \(\Gamma\). Las siguientes reglas se siguen de las suposiciones sobre contextos, tipos y sus elementos
+y se pueden usar libremente en las derivaciones:
+\begin{array}{ccc}
+        \dfrac{Γ, x: A \vdash B(x) <code>~</code> \text{type}}{Γ \vdash A <code>~</code> \text{type}} &amp;
+        \dfrac{Γ \vdash A \stackrel{⋅}{<code class="verbatim">} B ~~~ \text{type}}{\Gamma \vdash A ~~~ \text{type}} &amp;
+        \dfrac{\Gamma \vdash A \stackrel{\cdot}{</code>} B <code>~</code> \text{type}}{Γ \vdash B <code>~</code> \text{type}} <br>
+        \dfrac{Γ \vdash a: A}{Γ \vdash A <code>~</code> {type}} &amp;
+        \dfrac{Γ \vdash a \stackrel{⋅}{<code class="verbatim">} b: A}{\Gamma \vdash a: A} &amp;
+        \dfrac{\Gamma \vdash a \stackrel{\cdot}{</code>} b}{Γ \vdash b: A}</p>
+<p>\end{array}</p>
+</div>
+</div>
+<div id="outline-container-headline-9" class="outline-3">
+<h3 id="headline-9">
+La igualdad juiciosa es una relación de equivalencia
+</h3>
+<div id="outline-text-headline-9" class="outline-text-3">
+<p>Las reglas que postulan que la igualdad sobre tipos y sus elementos es una relación de equivalencia
+simplemente postulan que es reflexiva, simétrica y transitiva:
+\begin{array}{ccc}
+        \dfrac{Γ \vdash A <code>~</code> \text{type}}{Γ \vdash A \stackrel{⋅}{<code class="verbatim">} A ~~~ \text{type}} &amp;
+        \dfrac{\Gamma \vdash A \stackrel{\cdot}{</code>} B <code>~</code> \text{type}}{Γ \vdash B \stackrel{⋅}{<code class="verbatim">} A ~~~ ~\text{type}} &amp;
+        \dfrac{\Gamma \vdash A \stackrel{\cdot}{</code>} B <code>~</code> \text{type} <code>~</code> Γ \vdash B \stackrel{⋅}{<code class="verbatim">} C ~~~ \text{type}}{\Gamma \vdash A \stackrel{\cdot}{</code>} C <code>~</code> \text{type}} <br>
+        \dfrac{Γ \vdash a: A}{Γ \vdash a \stackrel{⋅}{<code class="verbatim">} a: A} &amp;
+        \dfrac{\Gamma \vdash a \stackrel{\cdot}{</code>} b: A}{Γ \vdash b \stackrel{⋅}{<code class="verbatim">} a: A} &amp;
+        \dfrac{\Gamma \vdash a \stackrel{\cdot}{</code>} b: A <code>~</code> Γ \vdash b \stackrel{⋅}{<code class="verbatim">} c: A}{\Gamma \vdash a \stackrel{\cdot}{</code>} c: A}</p>
+<p>\end{array}</p>
+</div>
+</div>
+<div id="outline-container-headline-10" class="outline-3">
+<h3 id="headline-10">
+Reglas de conversión de variables
+</h3>
+<div id="outline-text-headline-10" class="outline-text-3">
+<p>Las <strong>reglas de conversión de variables</strong> postulan que podemos convertir el tipo de una variable
+a un tipo juiciosamente igual. La primera regla de conversión de variables dice que</p>
+<p>
+\[
+        \dfrac{\Gamma \vdash A \stackrel{\cdot}{=} A&#39; ~~~ \text{type} ~~~ \Gamma, x: A, \Delta \vdash B(x) ~~~ \text{type}}{\Gamma, x: A&#39;, \Delta \vdash B(x) ~~~ \text{type}}.
+\]</p>
+<p>
+En esta regla de conversión, el contexto \(\Gamma, x: A, \Delta\) es simplemente cualquier extensión del contexto
+\(\Gamma, x: A\).
+Similarmente, hay reglas de conversión para igualdad juiciosa de tipos, elementos y para la igualdad
+juiciosa de elementos. Escribimos una única regla para estas con una <strong>tesis de juicio genérico</strong>
+\(\mathcal{J}\), que puede ser cualquiera de las definidas en la definición <a href="#definicion-1-1-1">1.1.1</a>:</p>
+<p>
+\[
+        \dfrac{\Gamma \vdash A \stackrel{\cdot}{=} A&#39; ~~~ \text{type} ~~~ \Gamma, x: A, \Delta \vdash \mathcal{J}}{\Gamma, x: A&#39;, \Delta \vdash \mathcal{J}}.
+\]</p>
+</div>
+</div>
+<div id="outline-container-headline-11" class="outline-3">
+<h3 id="headline-11">
+Substitución
+</h3>
+<div id="outline-text-headline-11" class="outline-text-3">
+<p>Consideremos un elemento \(f(x): B(x)\) indizado por \(x: A\) en el contexto \(\Gamma\), y supongamos que tenemos un
+elemento \(a: A\). Entonces podemos substituir \(a\) por todas las ocurrencias de \(x\) en \(f(x)\) para obtener un
+nuevo elemento \(f[a/x]\), que tiene tipo \(B[a/x]\).
+Supongamos que tenemos un tipo</p>
+<p>
+\[
+        \Gamma, x: A, y_1: B_1, \ldots, y_n: B_n \vdash C ~~~ \text{type}
+\]</p>
+<p>
+y un elemento \(a: A\) en el contexto \(\Gamma\). Entonces podemos substituir simultáneamente \(a\) por todas las
+ocurrencias de \(x\) en los tipos \(B_1, \ldots, B_n\) y \(C\) para obtener</p>
+<p>
+\[
+        \Gamma, y_1: B_1[a/x], \ldots, y_n: B_n[a/x] \vdash C[a/x] ~~~ \text{type}.
+\]</p>
+<p>
+Notemos que a las variables \(y_1, \ldots, y_n\) se les asignan nuevos tipos después de realizar la substitución
+de \(a\) por \(x\). Similarmente, podemos substituir \(a\) por \(x\) en un elemento \(c: C\) para obtener un elemento
+\(c[a/x]: C[a/x]\), y podemos substituir \(a\) por \(x\) en una tesis de igualdad juiciosa ya sea de tipos o
+elementos, simplemente substituyendo en ambos lados de la ecuación. La <strong>regla de substitución</strong> es enunciada
+usando una tesis de juicio genérico \(\mathcal{J}\):</p>
+<p>
+\[
+        \dfrac{\Gamma \vdash a: A ~~~ \Gamma, x: A, \Delta \vdash \mathcal{J}}{\Gamma, \Delta[a/x] \vdash \mathcal{J}[a/x]}S.
+\]</p>
+<p>
+Más aún, añadimos dos &#34;reglas de congruencia&#34; para la substitución, que postulan que la substitución
+por elementos juiciosamente iguales resulta en tipos y elementos juiciosamente iguales:</p>
+<p>
+\begin{array}{c}
+        \dfrac{Γ \vdash a \stackrel{⋅}{<code class="verbatim">} a&#39;: A ~~~ \Gamma, x: A, \Delta \vdash B ~~~ \text{type}}{\Gamma, \Delta[a/x] \vdash B[a/x] \stackrel{\cdot}{</code>} B[a&#39;/x] <code>~</code> \text{type} } <br>
+        \dfrac{Γ \vdash a \stackrel{⋅}{<code class="verbatim">} a&#39;: A ~~~ \Gamma, x: A, \Delta \vdash b: B}{\Gamma, \Delta[a/x] \vdash b[a/x] \stackrel{\cdot}{</code>} b[a&#39;/x]: B[a/x]</p>
+<p>\end{array}</p>
+<div id="outline-container-headline-12" class="outline-4">
+<h4 id="headline-12">
+Definición 1.3.1
+</h4>
+<div id="outline-text-headline-12" class="outline-text-4">
+<p>Cuando \(B\) es una familia de tipos sobre \(A\) en un contexto \(\Gamma\) y si tenemos \(a: A\), entonces también decimos
+que \(B[a/x]\) es la <strong>fibra</strong> de \(B\) en \(a\). Usualmente escribimos \(B(a)\) para la fibra de \(B\) en \(a\).</p>
+<p>
+Cuando \(b\) es una sección de la familia \(B\) sobre \(A\) en el contexto \(\Gamma\), llamamos al elemento \(b[a/x]\)
+el <strong>valor</strong> de \(b\) en \(a\). Escribimos \(b(a)\) para el valor de \(b\) en \(a\).</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-13" class="outline-3">
+<h3 id="headline-13">
+Debilitamiento
+</h3>
+<div id="outline-text-headline-13" class="outline-text-3">
+<p>Si se nos da un tipo \(A\) en un contexto \(\Gamma\), entonces cualquier juicio hecho en un contexto más grande
+\(\Gamma, \Delta\) también se puede hacer en el contexto \(\Gamma, x: A, \Delta\), para una variable fresca \(x\).
+La regla de <strong>debilitamiento</strong> nos dice que el debilitamiento por un tipo \(A\) en un contexto \(\Gamma\) preserva
+la buena formación y la igualdad juiciosa de tipos y elementos</p>
+<p>
+\[
+        \dfrac{\Gamma \vdash A ~~~ \text{type} ~~~ ~~~ \Gamma, \Delta \vdash \mathcal{J}}{\Gamma, x: A, \Delta \vdash \mathcal{J}}W.
+\]</p>
+<p>
+Este proceso de expandir el contexto por una nueva variable de tipo \(A\) es llamado <strong>debilitamiento</strong> por \(A\).</p>
+<p>
+En la situación más simple en la que el debilitamiento aplica, tenemos dos tipos \(A\) y \(B\) en un contexto
+\(\Gamma\). Entonces podemos debilitar \(B\) por \(A\) como sigue:</p>
+<p>
+\[
+        \dfrac{\Gamma \vdash A ~~~ \text{type} ~~~ ~~~ \Gamma \vdash B ~~~ \text{type}}{\Gamma, x: A \vdash B ~~~ \text{type}}
+\]</p>
+<p>
+para formar el tipo \(B\) en el contexto \(\Gamma, x: A\). El tipo \(B\) en el contexto \(\Gamma, x: A\) es llamado
+la <strong>familia constante</strong> \(B\), o la <strong>familia trivial</strong> \(B\).</p>
+</div>
+</div>
+<div id="outline-container-headline-14" class="outline-3">
+<h3 id="headline-14">
+Los elementos genéricos
+</h3>
+<div id="outline-text-headline-14" class="outline-text-3">
+<p>Si se nos da un tipo \(A\) en un contexto \(\Gamma\), entonces podemos debilitar a \(A\) por si mismo para
+obtener que \(A\) es un tipo en el contexto \(\Gamma, x: A\). La regla pala el <strong>elemento genérico</strong> asegura que
+cualquier elemento hipotético \(x: A\) en el contexto \(\Gamma, x: A\) también es un elemento de tipo \(A\)
+en el contexto \(\Gamma, x: A\).</p>
+<p>
+\[
+        \dfrac{\Gamma \vdash A ~~~ \text{type}}{\Gamma, x: A \vdash x: A} \delta.
+\]</p>
+<p>
+Esta regla también es conocida como <strong>regla de variable</strong>. Una de las razones para incluir el elemento
+genérico es asegurarnos de que las variables declaradas en un contexto son de hecho elementos. También
+da la <strong>función identidad</strong> sobre el tipo \(A\) en el contexto \(\Gamma\).</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-15" class="outline-2">
+<h2 id="headline-15">
+Derivaciones
+</h2>
+<div id="outline-text-headline-15" class="outline-text-2">
+<p>Una <strong>derivación</strong> en la teoría de tipos es un árbol finito en el que cada nodo es una regla de inferencia
+válida. En la raíz del árbol encontramos la conclusión y en las hojas encontramos las hipótesis. Damos
+dos ejemplos de derivaciones: una derivación mostrando que cualquier variable se puede cambiar por una
+variable nueva y una mostrando que dos variables que no dependen mutuamente de otra pueden ser cambiadas
+en su orden.</p>
+<p>
+Dada una derivación con hipótesis \(mathcal{H}_1, \ldots, \mathcal{H}_n\) y conclusión \(\mathcal{C}\),
+podemos formar una nueva regla de inferencia</p>
+<p>
+\[
+        \dfrac{\mathcal{H}_1 \cdots \mathcal{H}_n}{\mathcal{C}}
+\]</p>
+<p>
+Una regla así es llamada <strong>derivable</strong>, pues podemos dar una derivación para ella.</p>
+<div id="outline-container-headline-16" class="outline-4">
+<h4 id="headline-16">
+Cambiando variables
+</h4>
+<div id="outline-text-headline-16" class="outline-text-4">
+<p>Las variables se pueden cambiar por variables nuevas. Mostramos esto viendo que la regla de inferencia</p>
+<p>
+\[
+        \dfrac{\Gamma, x: A, \Delta \vdash \mathcal{J}}{\Gamma, x&#39;: A, \Delta[x&#39;/x] \vdash \mathcal{J}[x&#39;/x]}x&#39;/x
+\]</p>
+<p>
+es derivable, donde \(x&#39;\) es una variable que no ocurre en el contexto \(\Gamma, x: A, \Delta\).</p>
+<p>
+En efecto, tenemos la siguiente derivación usando substitución, debilitamiento y el elemento genérico:</p>
+<p>
+\[
+        \dfrac{
+                \dfrac{\Gamma \vdash A ~~~ \text{type}}{\Gamma, x&#39;: A \vdash x&#39;: A}\delta ~~~
+                \dfrac{\Gamma \vdash A ~~~ \text{type} ~~~ ~~~ \Gamma, x: A, \Delta \vdash \mathcal{J}}{\Gamma, x&#39;: A, x: A, \Delta \vdash \mathcal{J}}W
+        }{\Gamma, x&#39;: A, \Delta[x&#39;/x] \vdash J[x&#39;/x]}S.
+\]</p>
+<p>
+En esta derivación es en la regla de debilitamiento que debemos verificar que \(x&#39;\) no ocurre en el
+contexto \(\Gamma, x: A, \Delta\).</p>
+</div>
+</div>
+<div id="outline-container-headline-17" class="outline-4">
+<h4 id="headline-17">
+Intercambiando variables
+</h4>
+<div id="outline-text-headline-17" class="outline-text-4">
+<p>La <strong>regla de intercambio</strong> dice que si tenemos dos tipos \(A\) y \(B\) en un contexto \(\Gamma\), y hacemos un
+juicio en el contexto \(\Gamma, x: A, y: B, \Delta\), entonces podemos hacer el mismo juicio en el contexto
+\(\Gamma, y: B, x: A, \Delta\) donde el orden de \(x: A\) y \(y: B\) es intercambiado. Más formalmente, la regla
+de intercambio es la siguiente regla de inferencia
+\[
+        \dfrac{\Gamma \vdash B ~~~ \text{type} ~~~ ~~~ \Gamma, x: A, y:B, \Delta \vdash \mathcal{J}}{\Gamma, y: B, x: A, \Delta \vdash \mathcal{J}}.
+\]</p>
+<p>
+Como en la regla de cambio de variables, afirmamos que la regla de intercambio es derivable: si tenemos
+un juicio
+\[
+        \Gamma, x: A, y: B, \Delta \vdash \mathcal{J},
+\]
+entonces podemos cambiar la variable \(y\) por una nueva variable \(y&#39;\) y debilitar el juicio para
+obtener el juicio
+\[
+\Gamma, y: B, x: A, y&#39;: B, \Delta[y&#39;/y] \vdash \mathcal{J}[y&#39;/y].
+\]
+Ahora podemos substituir \(y\) por \(y&#39;\) para obtener el juicio deseado
+\(\Gamma, y: B, x: A, \Delta \vdash \mathcal{J}\). La derivación formal es la siguiente:</p>
+<p>
+\[
+        \dfrac{
+                \dfrac{
+                        \dfrac{\Gamma \vdash B ~~~ \text{type}}{\Gamma, y: B \vdash y: B}
+                }{\Gamma, y: B, x: A \vdash y: B}
+                \dfrac{
+                        \Gamma \vdash B ~~~ \text{type} ~~~ ~~~
+                        \dfrac{
+                                \Gamma, x: A, y: B, \Delta \vdash \mathcal{J}
+                        }{\Gamma, x: A, y&#39;: B, \Delta[y&#39;/y] \vdash \mathcal{J}[y&#39;/y]}
+                }{\Gamma, y: B, x: A, y&#39;: B, \Delta[y&#39;/y] \vdash \mathcal{J}[y&#39;/y]}
+        }{\Gamma, y:B, x: A, \Delta \vdash \mathcal{J}}
+\]</p>
+</div>
+</div>
+</div>
+</div>
+
+        </div>
+        <div class="hx:mt-16"></div>
+        
+      </main>
+    </article>
+  </div>
+
+      <footer class="hextra-footer hx:bg-gray-100 hx:pb-[env(safe-area-inset-bottom)] hx:dark:bg-neutral-900 hx:print:bg-transparent"><div class="hx:mx-auto hx:flex hx:gap-2 hx:py-2 hx:px-4 hextra-max-footer-width"><div class="hx:flex hx:justify-items-start hx:group" data-theme="light">
+  <button
+    title="Change theme"
+    data-state="closed"
+    data-location="bottom"
+    class="hextra-theme-toggle hx:cursor-pointer hx:rounded-md hx:text-left hx:font-medium hx:h-7 hx:px-2 hx:text-xs hx:hover:bg-gray-100 hx:hover:text-gray-900 hx:dark:hover:bg-primary-100/5 hx:dark:hover:text-gray-50 hx:font-medium hx:text-gray-600 hx:transition-colors hx:dark:text-gray-400 hx:grow"
+    type="button"
+    aria-label="Change theme"
+  >
+    <div class="hx:flex hx:items-center hx:gap-2 hx:capitalize"><svg height=12 class="hx:group-data-[theme=dark]:hidden hx:group-data-[theme=system]:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="hx:group-data-[theme=dark]:hidden hx:group-data-[theme=system]:hidden">Light</span><svg height=12 class="hx:group-data-[theme=light]:hidden hx:group-data-[theme=system]:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg><span class="hx:group-data-[theme=light]:hidden hx:group-data-[theme=system]:hidden">Dark</span><svg height=12 class="hx:group-data-[theme=dark]:hidden hx:group-data-[theme=light]:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  fill="currentColor">
+  <path d="M 11.996094,2 C 6.4986225,2.0192368 2.03125,6.5024993 2.03125,12 c 0,5.497501 4.4673725,9.980763 9.964844,10 H 12 12.0039 c 5.497471,-0.01924 9.964844,-4.502499 9.964844,-10 0,-5.4975007 -4.467373,-9.9807632 -9.964844,-10 H 12 Z M 12,4 c 4.417218,0.017598 7.96875,3.5822356 7.96875,8 0,4.417764 -3.551532,7.982402 -7.96875,8 z" />
+</svg>
+<span class="hx:group-data-[theme=dark]:hidden hx:group-data-[theme=light]:hidden">System</span></div>
+  </button>
+  <ul
+    class="hextra-theme-toggle-options hx:hidden hx:z-20 hx:max-h-64 hx:overflow-auto hx:rounded-md hx:ring-1 hx:ring-black/5 hx:bg-white hx:py-1 hx:text-sm hx:shadow-lg hx:dark:ring-white/20 hx:dark:bg-neutral-800"
+    style="position: fixed; inset: auto auto 0px 0px; margin: 0px; min-width: 100px;"
+    data-theme="light"
+  >
+    <li class="hx:flex hx:flex-col">
+      <p
+        data-item="light"
+        class="hx:text-gray-800 hx:dark:text-gray-100 hx:hover:bg-primary-50 hx:hover:text-primary-600 hx:hover:dark:bg-primary-500/10 hx:hover:dark:text-primary-600 hx:relative hx:cursor-pointer hx:whitespace-nowrap hx:py-1.5 hx:transition-colors hx:ltr:pl-3 hx:ltr:pr-9 hx:rtl:pr-3 hx:rtl:pl-9"
+      >
+        Light
+         <span class="hx:absolute hx:inset-y-0 hx:flex hx:items-center hx:ltr:right-3 hx:rtl:left-3 hx:group-data-[theme=dark]:hidden hx:group-data-[theme=system]:hidden"><svg height=1em width=1em xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+      </p>
+    </li>
+    <li class="hx:flex hx:flex-col">
+      <p
+        data-item="dark"
+        class="hx:text-gray-800 hx:dark:text-gray-100 hx:hover:bg-primary-50 hx:hover:text-primary-600 hx:hover:dark:bg-primary-500/10 hx:hover:dark:text-primary-600 hx:relative hx:cursor-pointer hx:whitespace-nowrap hx:py-1.5 hx:transition-colors hx:ltr:pl-3 hx:ltr:pr-9 hx:rtl:pr-3 hx:rtl:pl-9"
+      >
+        Dark
+         <span class="hx:absolute hx:inset-y-0 hx:flex hx:items-center hx:ltr:right-3 hx:rtl:left-3 hx:group-data-[theme=light]:hidden hx:group-data-[theme=system]:hidden"><svg height=1em width=1em xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+      </p>
+    </li>
+    <li class="hx:flex hx:flex-col">
+      <p
+        data-item="system"
+        class="hx:text-gray-800 hx:dark:text-gray-100 hx:hover:bg-primary-50 hx:hover:text-primary-600 hx:hover:dark:bg-primary-500/10 hx:hover:dark:text-primary-600 hx:relative hx:cursor-pointer hx:whitespace-nowrap hx:py-1.5 hx:transition-colors hx:ltr:pl-3 hx:ltr:pr-9 hx:rtl:pr-3 hx:rtl:pl-9"
+      >
+        System
+         <span class="hx:absolute hx:inset-y-0 hx:flex hx:items-center hx:ltr:right-3 hx:rtl:left-3 hx:group-data-[theme=dark]:hidden hx:group-data-[theme=light]:hidden"><svg height=1em width=1em xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+      </p>
+    </li>
+  </ul>
+</div></div><hr class="hx:border-gray-200 hx:dark:border-neutral-800" /><div class="hextra-custom-footer hextra-max-footer-width hx:pl-[max(env(safe-area-inset-left),1.5rem)] hx:pr-[max(env(safe-area-inset-right),1.5rem)] hx:text-gray-600 hx:dark:text-gray-400"></div></footer>
+    
+    <script defer src="/js/main.js" integrity=""></script>
+<script defer src="/js/flexsearch.9f5b5908f93ae86f1ecd4b043b799f580c2d1654e703dd9357d568ac41b2547a.js" integrity="sha256-n1tZCPk66G8ezUsEO3mfWAwtFlTnA92TV9VorEGyVHo=" crossorigin="anonymous"></script>
+        <script defer src="/en.search.js" integrity=""></script><script type="application/json" id="notes-graph-data" data-current="/notas/dependiente/" data-total="3">{"edges":[],"nodes":[{"id":"/notas/tipos/rijke/dependiente/","title":"Teoría de tipos dependiente","trail":"tipos / rijke / dependiente","url":"/notas/tipos/rijke/dependiente/"},{"id":"/notas/tipos/rijke/funciones-dependientes/","title":"Funciones dependientes","trail":"tipos / rijke / funciones-dependientes","url":"/notas/tipos/rijke/funciones-dependientes/"},{"id":"/notas/dependiente/","title":"Teoría de tipos dependientes","trail":"notas / dependiente","url":"/notas/dependiente/"}]}</script>
+    <script defer src="https://unpkg.com/force-graph@1.43.4/dist/force-graph.min.js"></script>
+    <script defer src="/js/notes-graph.js"></script>
+  </body>
+</html>
