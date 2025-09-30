@@ -145,10 +145,5 @@ de equivalencia son las siguientes:
     \dfrac{\Gamma \vdash A ~~~ \text{type}}{\Gamma \vdash A \stackrel{\cdot}{=} A ~~~ \text{type}} &
     \dfrac{\Gamma \vdash A \stackrel{\cdot}{=} B ~~~ \text{type}}{\Gamma \vdash B \stackrel{\cdot}{=} A ~~~ \text{type}} & 
     \dfrac{\Gamma \vdash A \stackrel{\cdot}{=} B ~~~ \text{type} ~~~ ~~~ \Gamma \vdash B \stackrel{\cdot}{=} C ~~~ \text{type}}{\Gamma \vdash A \stackrel{\cdot}{=} C ~~~ \text{type}} \\ & & \\
-    \dfrac{\Gamma \vdash a: A}{\Gamma \vdash a \stackrel{\cdot}{=} a: A}&
-    \dfrac{\Gamma \vdash a \stackrel{\cdot}{=} b: A}{\Gamma \vdash b \stackrel{\cdot}{=} a: A} &
-    \dfrac{\Gamma \vdash a \stackrel{\cdot}{=} b: A ~~~ ~~~ \Gamma \vdash b \stackrel{\cdot}{=} c: A}{\Gamma \vdash a \stackrel{\cdot}{=} c: A}
   \end{array}
 \]
-
-

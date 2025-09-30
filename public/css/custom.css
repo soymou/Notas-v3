@@ -1,16 +1,18 @@
 .katex-display {
   margin: 1.5rem 0;
+  padding: 0.85rem 1.25rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg, rgba(71, 85, 105, 0.55) 0 4px, rgba(148, 163, 184, 0.12) 4px 100%);
+  overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  text-align: center;
 }
 
 .katex-display > .katex {
   display: inline-block;
-  padding: 0.85rem 1.25rem;
-  border-left: 4px solid rgba(71, 85, 105, 0.45);
-  border-radius: 0.5rem;
-  background: rgba(148, 163, 184, 0.12);
 }
 
-html.dark .katex-display > .katex {
-  border-left-color: rgba(148, 163, 184, 0.6);
-  background: rgba(30, 41, 59, 0.45);
+html.dark .katex-display {
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.65) 0 4px, rgba(30, 41, 59, 0.45) 4px 100%);
 }
