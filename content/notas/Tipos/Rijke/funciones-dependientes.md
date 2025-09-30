@@ -2,7 +2,8 @@
 title: Funciones dependientes
 type: docs
 prev: dependiente
-next: funciones-dependientes
+next: /notas/tipos/rijke/_index
+weight: 2
 ---
 
 Consideremos una sección \(b\) sobre \(A\) en un contexto \(\Gamma\),es decir, consideremos

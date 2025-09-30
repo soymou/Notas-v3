@@ -1,8 +1,9 @@
 ---
 title: Teoría de tipos dependiente
 type: docs
-prev: intro
+prev: /notas/tipos/rijke/_index
 next: funciones-dependientes
+weight: 1
 ---
 La teoría de tipos dependiente es un conjunto de reglas de inferencia que se pueden 
 combinar para crear *derivaciones*. El objetivo de estas derivaciones es 
@@ -14,7 +15,7 @@ tipo es el desafío matemático del día a día.
 ## Juicios y contextos
 Un argumento matemático consiste de una sucesión de pasos, cada uno con una cantidad 
 finita de premisas para llegar a la siguiente etapa de la demostración o construcción.
-Estos pasos se puden representar mediante **reglas de inferencia**, que se escriben 
+Estos pasos se pueden representar mediante **reglas de inferencia**, que se escriben 
 en la forma 
 \[
   \frac{\mathcal{H}_1 ~~~ \mathcal{H}_2 \ldots \mathcal{H}_n}{\mathcal{C}}
@@ -98,9 +99,7 @@ el tipo \(a = x\) en el contexto \(\Gamma, x: A\). El tipo \(a = x\) en el conte
 
 <div id="def-1-2-2">
 {{<callout type="idea">}}
-Consideremos una familia de tipos \(B\) sobre \(A\) en un contexto \(\Gamma\). Una 
-**sección** de la familia \(B\) sobre \(A\) en el contexto \(\Gamma\) es un elemento 
-de tipo \(B(x)\) en el contexto \(\Gamma, x: A\), es decir, en el juicio 
+**Definición 1.2.2**: Consideremos una familia de tipos \(B\) sobre \(A\) en un contexto \(\Gamma\). Una **sección** de la familia \(B\) sobre \(A\) en el contexto \(\Gamma\) es un elemento de tipo \(B(x)\) en el contexto \(\Gamma, x: A\), es decir, en el juicio 
 \[
   \Gamma, x: A \vdash b(x): B(x).
 \]

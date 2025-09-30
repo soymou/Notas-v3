@@ -1,0 +1,118 @@
+{{- if and .IsPage (eq .Section "notas") -}}
+  {{- $notes := where site.RegularPages "Section" "notas" -}}
+  {{- if gt (len $notes) 0 -}}
+    {{- $nodes := slice -}}
+    {{- range $notes -}}
+      {{- $segments := last 3 (split (trim .RelPermalink "/") "/") -}}
+      {{- $trail := delimit $segments " / " -}}
+      {{- $nodes = $nodes | append (dict "id" .RelPermalink "title" (.LinkTitle | default .Title) "url" .RelPermalink "trail" $trail) -}}
+    {{- end -}}
+
+    {{- $edges := slice -}}
+    {{- $edgeKeys := slice -}}
+
+    {{- range $notes -}}
+      {{- $src := . -}}
+      {{- $srcID := $src.RelPermalink -}}
+
+      {{- $mdLinks := findRESubmatch `\[[^\]]+\]\((/notas[^\)#"']+)` $src.RawContent -}}
+      {{- range $mdLinks -}}
+        {{- $targetPath := index . 1 -}}
+        {{- with site.GetPage $targetPath -}}
+          {{- if ne $srcID .RelPermalink -}}
+            {{- $edgeKey := printf "%s|%s" $srcID .RelPermalink -}}
+            {{- if not (in $edgeKeys $edgeKey) -}}
+              {{- $edges = $edges | append (dict "source" $srcID "target" .RelPermalink "kind" "markdown") -}}
+              {{- $edgeKeys = $edgeKeys | append $edgeKey -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
+      {{- $htmlLinks := findRESubmatch `href=\"(/notas[^"]+)\"` $src.Content -}}
+      {{- range $htmlLinks -}}
+        {{- $targetPath := index . 1 -}}
+        {{- with site.GetPage $targetPath -}}
+          {{- if ne $srcID .RelPermalink -}}
+            {{- $edgeKey := printf "%s|%s" $srcID .RelPermalink -}}
+            {{- if not (in $edgeKeys $edgeKey) -}}
+              {{- $edges = $edges | append (dict "source" $srcID "target" .RelPermalink "kind" "html") -}}
+              {{- $edgeKeys = $edgeKeys | append $edgeKey -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
+      {{- with $src.Params.prev -}}
+        {{- $raw := . -}}
+        {{- $target := site.GetPage $raw -}}
+        {{- if not $target -}}
+          {{- if not (strings.HasPrefix $raw "/") -}}
+            {{- with $src.CurrentSection -}}
+              {{- with (.GetPage $raw) -}}
+                {{- $target = . -}}
+              {{- end -}}
+            {{- end -}}
+            {{- if not $target -}}
+              {{- with site.GetPage (printf "notas/%s" $raw) -}}
+                {{- $target = . -}}
+              {{- end -}}
+            {{- end -}}
+            {{- if not $target -}}
+              {{- with site.GetPage (printf "/notas/%s" $raw) -}}
+                {{- $target = . -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+        {{- with $target -}}
+          {{- if ne $srcID .RelPermalink -}}
+            {{- $edgeKey := printf "%s|%s" $srcID .RelPermalink -}}
+            {{- if not (in $edgeKeys $edgeKey) -}}
+              {{- $edges = $edges | append (dict "source" $srcID "target" .RelPermalink "kind" "prev") -}}
+              {{- $edgeKeys = $edgeKeys | append $edgeKey -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
+      {{- with $src.Params.next -}}
+        {{- $raw := . -}}
+        {{- $target := site.GetPage $raw -}}
+        {{- if not $target -}}
+          {{- if not (strings.HasPrefix $raw "/") -}}
+            {{- with $src.CurrentSection -}}
+              {{- with (.GetPage $raw) -}}
+                {{- $target = . -}}
+              {{- end -}}
+            {{- end -}}
+            {{- if not $target -}}
+              {{- with site.GetPage (printf "notas/%s" $raw) -}}
+                {{- $target = . -}}
+              {{- end -}}
+            {{- end -}}
+            {{- if not $target -}}
+              {{- with site.GetPage (printf "/notas/%s" $raw) -}}
+                {{- $target = . -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+        {{- with $target -}}
+          {{- if ne $srcID .RelPermalink -}}
+            {{- $edgeKey := printf "%s|%s" $srcID .RelPermalink -}}
+            {{- if not (in $edgeKeys $edgeKey) -}}
+              {{- $edges = $edges | append (dict "source" $srcID "target" .RelPermalink "kind" "next") -}}
+              {{- $edgeKeys = $edgeKeys | append $edgeKey -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- $graph := dict "nodes" $nodes "edges" $edges -}}
+    <script type="application/json" id="notes-graph-data" data-current="{{ .RelPermalink }}" data-total="{{ len $notes }}">{{ $graph | jsonify | safeJS }}</script>
+    <script defer src="https://unpkg.com/force-graph@1.43.4/dist/force-graph.min.js"></script>
+    <script defer src="{{ "/js/notes-graph.js" | relURL }}"></script>
+  {{- end -}}
+{{- end -}}

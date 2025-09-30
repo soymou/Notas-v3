@@ -6,4 +6,8 @@ sidebar:
   open: true
 ---
 
-Estas son mis notas sobre teoría de tipos
+Estas son mis notas sobre teoría de tipos. Por ahora aquí puedes encontrar los siguientes
+sub-temas
+{{<cards>}}
+  {{<card link="rijke" title="Introducción a la teoría homotópica de tipos (Rijke)" icon="book-open">}}
+{{</cards>}}

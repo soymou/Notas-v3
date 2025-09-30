@@ -3,16 +3,8 @@ title: Notas
 next: Tipos/_index
 ---
 
-This is a demo of the theme's documentation layout.
+Esta es la sección donde guardo mis notas. Por ahora, puedes encontrar los siguientes temas:
 
-## Hello, World!
-
-```go {filename="main.go"}
-package main
-
-import "fmt"
-
-func main() {
-    fmt.Println("Hello, World!")
-}
-```
+{{<cards>}}
+  {{<card link="tipos" title="Teoría de tipos" icon="pencil">}}
+{{</cards>}}
