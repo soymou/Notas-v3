@@ -9,5 +9,5 @@ sidebar:
 Estas son mis notas sobre teoría de tipos. Por ahora aquí puedes encontrar los siguientes
 sub-temas
 {{<cards>}}
-  {{<card link="notas/tipos/rijke" title="Introducción a la teoría homotópica de tipos (Rijke)" icon="book-open">}}
+  {{<card link="tipos/rijke" title="Introducción a la teoría homotópica de tipos (Rijke)" icon="book-open">}}
 {{</cards>}}

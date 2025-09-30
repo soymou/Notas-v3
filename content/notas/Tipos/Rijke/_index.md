@@ -11,5 +11,5 @@ Estas son mis notas sobre el libro "Introducción a la teoría homotópica de ti
 Rijke.
 
 {{<cards>}}
-  {{<card link="notas/tipos/rijke/dependiente" title="Teoría de tipos dependiente" icon="pencil">}}
+  {{<card link="dependiente" title="Teoría de tipos dependiente" icon="pencil">}}
 {{</cards>}}
