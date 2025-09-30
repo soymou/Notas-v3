@@ -109,5 +109,10 @@ Alternativamente, decimos que \(b(x)\) es un elemento de tipo \(B(x)\) indizado 
 {{</callout>}}
 </div>
 
+## Reglas de inferencia
+Ahora estamos listos para presentar el sistema de reglas de inferencia que conforman la 
+teoría de tipos. Estas reglas son conocidas como **reglas estructurales** de la teoría de
+tipos. Hay seis conjuntos de reglas de inferencia:
 
-
+1. Reglas sobre la formación de contextos, tipos y sus elementos.
+2. 

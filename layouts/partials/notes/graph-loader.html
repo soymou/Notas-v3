@@ -55,8 +55,10 @@
               {{- end -}}
             {{- end -}}
             {{- with $target -}}
-              {{- if ne .RelPermalink $srcID -}}
-                {{- $edgeKey := printf "%s|%s" $srcID .RelPermalink -}}
+              {{- if and .IsPage (eq .Section "notas") (ne .RelPermalink $srcID) -}}
+                {{- $targetID := .RelPermalink -}}
+                {{- $pair := sort (slice $srcID $targetID) -}}
+                {{- $edgeKey := printf "%s|%s" (index $pair 0) (index $pair 1) -}}
                 {{- if not (in $edgeKeys $edgeKey) -}}
                   {{- $edges = $edges | append (dict "source" $srcID "target" .RelPermalink "kind" "markdown") -}}
                   {{- $edgeKeys = $edgeKeys | append $edgeKey -}}
@@ -100,11 +102,71 @@
               {{- end -}}
             {{- end -}}
             {{- with $target -}}
-              {{- if ne .RelPermalink $srcID -}}
-                {{- $edgeKey := printf "%s|%s" $srcID .RelPermalink -}}
+              {{- if and .IsPage (eq .Section "notas") (ne .RelPermalink $srcID) -}}
+                {{- $targetID := .RelPermalink -}}
+                {{- $pair := sort (slice $srcID $targetID) -}}
+                {{- $edgeKey := printf "%s|%s" (index $pair 0) (index $pair 1) -}}
                 {{- if not (in $edgeKeys $edgeKey) -}}
                   {{- $edges = $edges | append (dict "source" $srcID "target" .RelPermalink "kind" "html") -}}
                   {{- $edgeKeys = $edgeKeys | append $edgeKey -}}
+                {{- end -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+
+      {{- $fmLinkKinds := dict "prev" "frontmatter-prev" "next" "frontmatter-next" -}}
+      {{- range $field, $kind := $fmLinkKinds -}}
+        {{- with index $src.Params $field -}}
+          {{- $values := . -}}
+          {{- if not (reflect.IsSlice $values) -}}
+            {{- $values = slice $values -}}
+          {{- end -}}
+          {{- range $values -}}
+            {{- $raw := . -}}
+            {{- if $raw -}}
+              {{- $targetRef := strings.TrimSpace (printf "%v" $raw) -}}
+              {{- if $targetRef -}}
+                {{- $cleanRef := replaceRE `[#?].*$` "" $targetRef -}}
+                {{- if and $cleanRef (not (strings.HasPrefix $cleanRef "http://")) (not (strings.HasPrefix $cleanRef "https://")) -}}
+                  {{- $target := site.GetPage $cleanRef -}}
+                  {{- if and (not $target) (strings.HasPrefix $cleanRef "/") -}}
+                    {{- $target = site.GetPage (strings.TrimPrefix $cleanRef "/") -}}
+                  {{- end -}}
+                  {{- if not $target -}}
+                    {{- with $src.GetPage $cleanRef -}}
+                      {{- $target = . -}}
+                    {{- end -}}
+                  {{- end -}}
+                  {{- if not $target -}}
+                    {{- with $src.CurrentSection -}}
+                      {{- with (.GetPage $cleanRef) -}}
+                        {{- $target = . -}}
+                      {{- end -}}
+                    {{- end -}}
+                  {{- end -}}
+                  {{- if not $target -}}
+                    {{- $base := strings.TrimSuffix (strings.TrimPrefix $src.RelPermalink "/") "/" -}}
+                    {{- if $base -}}
+                      {{- $joined := path.Clean (printf "%s/%s" $base $cleanRef) -}}
+                      {{- $target = site.GetPage $joined -}}
+                      {{- if not $target -}}
+                        {{- $target = site.GetPage (printf "/%s" $joined) -}}
+                      {{- end -}}
+                    {{- end -}}
+                  {{- end -}}
+                  {{- with $target -}}
+                    {{- if and .IsPage (eq .Section "notas") (ne .RelPermalink $srcID) -}}
+                      {{- $targetID := .RelPermalink -}}
+                      {{- $pair := sort (slice $srcID $targetID) -}}
+                      {{- $edgeKey := printf "%s|%s" (index $pair 0) (index $pair 1) -}}
+                      {{- if not (in $edgeKeys $edgeKey) -}}
+                        {{- $edges = $edges | append (dict "source" $srcID "target" .RelPermalink "kind" $kind) -}}
+                        {{- $edgeKeys = $edgeKeys | append $edgeKey -}}
+                      {{- end -}}
+                    {{- end -}}
+                  {{- end -}}
                 {{- end -}}
               {{- end -}}
             {{- end -}}

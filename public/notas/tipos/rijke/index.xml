@@ -1,12 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Junoy – Rijke</title>
-    <link>//localhost:1313/notas/tipos/rijke/</link>
+    <link>/notas/tipos/rijke/</link>
     <description>Recent content in Rijke on Junoy</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     
-	  <atom:link href="//localhost:1313/notas/tipos/rijke/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="/notas/tipos/rijke/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -16,10 +16,10 @@
     
     <item>
       <title>Teoría de tipos dependiente</title>
-      <link>//localhost:1313/notas/tipos/rijke/dependiente/</link>
+      <link>/notas/tipos/rijke/dependiente/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/notas/tipos/rijke/dependiente/</guid>
+      <guid>/notas/tipos/rijke/dependiente/</guid>
       <description>
         
         
@@ -146,16 +146,24 @@ Alternativamente, decimos que &lt;span class=&#34;katex&#34;&gt;&lt;span class=&
 &lt;/div&gt;
 
 &lt;/div&gt;
+&lt;h2&gt;Reglas de inferencia&lt;span class=&#34;hx:absolute hx:-mt-20&#34; id=&#34;reglas-de-inferencia&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#reglas-de-inferencia&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Ahora estamos listos para presentar el sistema de reglas de inferencia que conforman la
+teoría de tipos. Estas reglas son conocidas como &lt;strong&gt;reglas estructurales&lt;/strong&gt; de la teoría de
+tipos. Hay seis conjuntos de reglas de inferencia:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Reglas sobre la formación de contextos, tipos y sus elementos.&lt;/li&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
       </description>
     </item>
     
     <item>
       <title>Funciones dependientes</title>
-      <link>//localhost:1313/notas/tipos/rijke/funciones-dependientes/</link>
+      <link>/notas/tipos/rijke/funciones-dependientes/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>//localhost:1313/notas/tipos/rijke/funciones-dependientes/</guid>
+      <guid>/notas/tipos/rijke/funciones-dependientes/</guid>
       <description>
         
         
