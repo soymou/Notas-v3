@@ -61,7 +61,7 @@ Render Jupyter Notebook
 {{- end -}}
 
       {{- $scratch := newScratch -}}
-      {{- $scratch.Set "messages" (slice) -}}
+      {{- $scratch.Set "messages" "" -}}
       {{- $outputs := index $cell "outputs" -}}
       {{- range $output := $outputs -}}
         {{- if eq (index $output "output_type") "display_data" -}}
@@ -77,11 +77,11 @@ Render Jupyter Notebook
                   {{- range . -}}
                     {{- with index . "data" -}}
                       {{- $message := strings.Trim . "\r\n" -}}
-                      {{- $existing := $scratch.Get "messages" -}}
+                      {{- $existing := $scratch.Get "messages" | default "" -}}
                       {{- if $existing -}}
-                        {{- $scratch.Set "messages" (append $existing $message) -}}
+                        {{- $scratch.Set "messages" (printf "%s\n%s" $existing $message) -}}
                       {{- else -}}
-                        {{- $scratch.Set "messages" (slice $message) -}}
+                        {{- $scratch.Set "messages" $message -}}
                       {{- end -}}
                     {{- end -}}
                   {{- end -}}
@@ -94,14 +94,12 @@ Render Jupyter Notebook
 
       {{- $messages := $scratch.Get "messages" -}}
       {{- if $messages -}}
-        {{- range $messages -}}
-          <div class="hextra-code-block hextra-code-block-result hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
-            {{- partial "components/codeblock" (dict "lang" $cellLang "content" . "options" (dict)) -}}
-            {{- if or (eq site.Params.highlight.copy.enable nil) (site.Params.highlight.copy.enable) -}}
-              {{- partialCached "components/codeblock-copy-button" (dict "filename" "") "" -}}
-            {{- end -}}
-          </div>
-        {{- end -}}
+        <div class="hextra-code-block hextra-code-block-result hx:relative hx:mt-6 hx:first:mt-0 hx:group/code">
+          {{- partial "components/codeblock" (dict "lang" $cellLang "content" $messages "options" (dict)) -}}
+          {{- if or (eq site.Params.highlight.copy.enable nil) (site.Params.highlight.copy.enable) -}}
+            {{- partialCached "components/codeblock-copy-button" (dict "filename" "") "" -}}
+          {{- end -}}
+        </div>
       {{- end -}}
     {{- else if eq (index $cell "cell_type") "markdown" -}}
         {{- $source := index $cell "source" }}

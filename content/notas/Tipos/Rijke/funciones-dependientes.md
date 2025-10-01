@@ -72,9 +72,31 @@ postulamos la **regla de congruencia** para la \(\lambda\)-abstracción, que dic
 \]
 
 
+### La regla de \(\Pi\)-eliminación
 
+La regla de eliminación para tipos función dependiente nos da una manera de *usar* 
+funciones dependientes. La forma de usar funciones dependientes es evaluarlas en un 
+argumento del tipo del dominio. La regla de \(\Pi\)-eliminación es también llamada la 
+**regla de evaluación**:
 
+\[
+  \dfrac{\Gamma \vdash f: \Pi_{(x: A)} B(x)}{\Gamma, x: A \vdash f(x): B(x)}ev.  
+\]
 
+Esta regla afirma que, dada una función dependiente \(f: \Pi_{(x: A)} B(x)\) en un contexto
+\(\Gamma\) obtenemos un término \(f(x)\) de tipo \(B(x)\) indizado por \(x: A\) en un 
+contexto \(\Gamma\). De nuevo, pedimos que la evaluación preserve la igualdad juiciosa:
+
+\[
+  \dfrac{\Gamma \vdash f \stackrel{\cdot}{=} f': \Pi_{(x: A)} B(x)}{\Gamma, x: A \vdash f(x) \stackrel{\cdot}{=} f'(x): B(x)}ev-eq.
+\]
+
+### Las reglas de \(\Pi\)-computación
+
+Ahora postulamos las reglas que especifican el comportamiento de las funciones. Primero,
+tenemos una regla que afirma que una función de la forma \(\lambda x. b(x)\) se comporta
+como esperamos: cuando la evaluamos en \(x: A\), obtenemos un valor \(b(x): B(x)\). Esta
+regla es llamada la *regla-\(\beta\)*.
 
 
 
